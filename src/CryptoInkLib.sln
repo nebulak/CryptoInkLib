@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoInkLib", "CryptoInkLib.csproj", "{C9BFB020-5AFE-4EDE-9F35-E57FF40CCBB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9BFB020-5AFE-4EDE-9F35-E57FF40CCBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9BFB020-5AFE-4EDE-9F35-E57FF40CCBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9BFB020-5AFE-4EDE-9F35-E57FF40CCBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9BFB020-5AFE-4EDE-9F35-E57FF40CCBB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

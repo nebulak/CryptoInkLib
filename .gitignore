@@ -1,0 +1,5 @@
+
+### XamarinStudio ###
+src/bin/
+src/obj/
+src/*.userprefs

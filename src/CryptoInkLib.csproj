@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C9BFB020-5AFE-4EDE-9F35-E57FF40CCBB8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CryptoInkLib</RootNamespace>
+    <AssemblyName>CryptoInkLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\packages\BouncyCastle.1.7.0\lib\Net40-Client\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="KeyStore\KeyStore.cs" />
+    <Compile Include="KeyStore\KeyStoreCrypto.cs" />
+    <Compile Include="KeyStore\KeyStoreManager.cs" />
+    <Compile Include="KeyStore\KeyStoreStorage.cs" />
+    <Compile Include="KeyStore\UserKey.cs" />
+    <Compile Include="KeyStore\UserSession.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="FileCrypter\FileCrypter.cs" />
+    <Compile Include="FileCrypter\FileHeaderCrypter.cs" />
+    <Compile Include="FileCrypter\CInkFileHeader.cs" />
+    <Compile Include="FileCrypter\EncryptedSessionKey.cs" />
+    <Compile Include="FileCrypter\SessionKey.cs" />
+    <Compile Include="KeyStore\FriendUserKey.cs" />
+    <Compile Include="FileCrypter\FileContentCrypter.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="KeyStore\" />
+    <Folder Include="FileCrypter\" />
+    <Folder Include="Crypto\" />
+    <Folder Include="lib\" />
+  </ItemGroup>
+</Project>
