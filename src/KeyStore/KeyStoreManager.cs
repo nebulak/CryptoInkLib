@@ -114,7 +114,7 @@ namespace CryptoInkLib
 			KeyStore _KeyStore 			= JsonConvert.DeserializeObject <KeyStore> (sKeyStoreContent);
 			byte [] baPasswordKey 		= KeyStoreCrypto.createPasswordKey (c_sPassword, _KeyStore.PasswordKeySalt);
 
-
+			 
 			KeyStoreStorage _KeyStoreStorage = KeyStoreCrypto.decryptKeyStoreStorage (baPasswordKey, _KeyStore.StorageIV, _KeyStore.Storage);
 
 			if (_KeyStoreStorage == null) {

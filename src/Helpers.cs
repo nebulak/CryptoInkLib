@@ -1,5 +1,33 @@
 ﻿using System;
-using Org.BouncyCastle;
+using System.IO;
+using System.Text;
+using System.Reflection;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto; //PBEParametersGenerator;
+using Org.BouncyCastle.Crypto.Generators; //PKCS5S2ParametersGenerator;
+using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Asn1.Pkcs;
+using Org.BouncyCastle.Pkcs;
+using Org.BouncyCastle.Asn1.X509;
+using Org.BouncyCastle.X509;
+
+
+using Org.BouncyCastle.Crypto.Digests; //SHA3Digest;
+using Org.BouncyCastle.Crypto.Parameters; //.KeyParameter;
+using Org.BouncyCastle.Crypto.Prng; //DigestRandomGenerator;
+
+
+//for aes encryption
+using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Crypto.Modes;
+using Org.BouncyCastle.Crypto.Paddings;
+using Org.BouncyCastle.Utilities.Encoders;
+using Org.BouncyCastle.Crypto.IO;
+using Org.BouncyCastle.Utilities.IO.Pem;
+
+//for HMAC
+using Org.BouncyCastle.Crypto.Macs;
+using Org.BouncyCastle.Math;
 
 namespace CryptoInkLib
 {
@@ -37,6 +65,8 @@ namespace CryptoInkLib
 
 			return byteArrayToHexString (randomBytes);
 		}
+
+
 	}
 }
 

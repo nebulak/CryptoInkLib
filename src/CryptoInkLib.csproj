@@ -54,15 +54,31 @@
     <Compile Include="FileCrypter\SessionKey.cs" />
     <Compile Include="KeyStore\FriendUserKey.cs" />
     <Compile Include="FileCrypter\FileContentCrypter.cs" />
+    <Compile Include="XtsSharp\src\XTSSharp\RandomAccessSectorStream.cs" />
+    <Compile Include="XtsSharp\src\XTSSharp\SectorStream.cs" />
+    <Compile Include="XtsSharp\src\XTSSharp\Xts.cs" />
+    <Compile Include="XtsSharp\src\XTSSharp\XtsAes128.cs" />
+    <Compile Include="XtsSharp\src\XTSSharp\XtsAes256.cs" />
+    <Compile Include="XtsSharp\src\XTSSharp\XtsCryptoTransform.cs" />
+    <Compile Include="XtsSharp\src\XTSSharp\XtsSectorStream.cs" />
+    <Compile Include="XtsSharp\src\XTSSharp\XtsStream.cs" />
+    <Compile Include="CommonCrypto.cs" />
+    <Compile Include="FileCrypter\FileNameCrypter.cs" />
+    <Compile Include="FileCrypter\CInkPlainHeader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="XtsSharp\.gitignore" />
+    <None Include="XtsSharp\license.txt" />
+    <None Include="XtsSharp\readme.txt" />
+    <None Include="XtsSharp\src\XTSSharp\XTSSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="KeyStore\" />
     <Folder Include="FileCrypter\" />
-    <Folder Include="Crypto\" />
     <Folder Include="lib\" />
+    <Folder Include="XtsSharp\" />
+    <Folder Include="XtsSharp\refs\" />
   </ItemGroup>
 </Project>

@@ -55,7 +55,7 @@ namespace CryptoInkLib
 
 
 
-		private static RsaPrivateCrtKeyParameters decodeUserKeyPairPrivate(String privateKeyString)
+		public static RsaPrivateCrtKeyParameters decodeUserKeyPairPrivate(String privateKeyString)
 		{
 			RsaPrivateCrtKeyParameters privateKey = (RsaPrivateCrtKeyParameters) PrivateKeyFactory.CreateKey(Convert.FromBase64String(privateKeyString));
 			return privateKey;
