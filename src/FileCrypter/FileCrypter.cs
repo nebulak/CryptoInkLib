@@ -117,8 +117,6 @@ namespace CryptoInkLib
 								key2 [i] = contentKey [i];
 							}
 						}
-						//TODO: delete
-						//contentKey.CopyTo (key1, 16);
 
 						string sFilename = FileNameCrypter.decryptFilename (Path.GetFileName (sPath), fileHeader.filename_keys[0].sessionKey, fileHeader.filename_iv );
 
@@ -135,6 +133,48 @@ namespace CryptoInkLib
 			}
 			return 1;
 
+		}
+
+		public static Stream getPlainStream(UserKey userKey, Stream streamCipherFile, string sPath)
+		{
+			byte[] baFileHeader = new byte [streamCipherFile.Length];
+			string sFileHeader = "";
+			//get fileheader as string
+			for (int i = 0; i < streamCipherFile.Length; i++) {
+				streamCipherFile.Read(baFileHeader, i, 1);
+
+				byte[] baCurrentChar = new byte[1];
+				baCurrentChar [0] = baFileHeader [i];
+				sFileHeader += Encoding.UTF8.GetString (baCurrentChar);
+
+				//check for end of fileheader
+				if (i > 3) 
+				{
+					if (sFileHeader.Contains (FileHeaderCrypter.HEADER_END)) 
+					{
+						CInkPlainHeader fileHeader = FileHeaderCrypter.getDecryptedHeader (sFileHeader, userKey);
+						byte[] contentKey = fileHeader.content_keys [0].sessionKey;
+						byte[] key1 = new byte[16];
+						byte[] key2 = new byte[16];
+
+						//get AES-XTS-Keys
+						for (int j = 0; j < 32; j++) 
+						{
+							if (i < 16) {
+								key1 [i] = contentKey [i];
+							} else {
+								key2 [i] = contentKey [i];
+							}
+						}
+
+						string sFilename = FileNameCrypter.decryptFilename (Path.GetFileName (sPath), fileHeader.filename_keys[0].sessionKey, fileHeader.filename_iv );
+
+
+						return FileContentCrypter.decryptStream (key1, key2, streamCipherFile);
+					}
+				}
+			}
+			return null;
 		}
 	}
 }
