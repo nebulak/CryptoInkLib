@@ -135,7 +135,7 @@ namespace CryptoInkLib
 
 		}
 
-		public static Stream getPlainStream(UserKey userKey, Stream streamCipherFile, string sPath)
+		public static Stream getCryptoStream(UserKey userKey, Stream streamCipherFile, string sPath)
 		{
 			byte[] baFileHeader = new byte [streamCipherFile.Length];
 			string sFileHeader = "";

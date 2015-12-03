@@ -37,6 +37,21 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="agsXMPP">
+      <HintPath>packages\agsXMPP.1.1.1.0\lib\agsXMPP.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle">
+      <HintPath>packages\MimeKit.1.2.15.0\lib\net45\BouncyCastle.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit">
+      <HintPath>packages\MimeKit.1.2.15.0\lib\net45\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Security" />
+    <Reference Include="MailKit">
+      <HintPath>packages\MailKit.1.2.14\lib\net45\MailKit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,31 +69,41 @@
     <Compile Include="FileCrypter\SessionKey.cs" />
     <Compile Include="KeyStore\FriendUserKey.cs" />
     <Compile Include="FileCrypter\FileContentCrypter.cs" />
-    <Compile Include="XtsSharp\src\XTSSharp\RandomAccessSectorStream.cs" />
-    <Compile Include="XtsSharp\src\XTSSharp\SectorStream.cs" />
-    <Compile Include="XtsSharp\src\XTSSharp\Xts.cs" />
-    <Compile Include="XtsSharp\src\XTSSharp\XtsAes128.cs" />
-    <Compile Include="XtsSharp\src\XTSSharp\XtsAes256.cs" />
-    <Compile Include="XtsSharp\src\XTSSharp\XtsCryptoTransform.cs" />
-    <Compile Include="XtsSharp\src\XTSSharp\XtsSectorStream.cs" />
-    <Compile Include="XtsSharp\src\XTSSharp\XtsStream.cs" />
     <Compile Include="CommonCrypto.cs" />
     <Compile Include="FileCrypter\FileNameCrypter.cs" />
     <Compile Include="FileCrypter\CInkPlainHeader.cs" />
+    <Compile Include="3rdParty\XtsSharp\src\XTSSharp\RandomAccessSectorStream.cs" />
+    <Compile Include="3rdParty\XtsSharp\src\XTSSharp\SectorStream.cs" />
+    <Compile Include="3rdParty\XtsSharp\src\XTSSharp\Xts.cs" />
+    <Compile Include="3rdParty\XtsSharp\src\XTSSharp\XtsAes128.cs" />
+    <Compile Include="3rdParty\XtsSharp\src\XTSSharp\XtsAes256.cs" />
+    <Compile Include="3rdParty\XtsSharp\src\XTSSharp\XtsCryptoTransform.cs" />
+    <Compile Include="3rdParty\XtsSharp\src\XTSSharp\XtsSectorStream.cs" />
+    <Compile Include="3rdParty\XtsSharp\src\XTSSharp\XtsStream.cs" />
+    <Compile Include="KeyStore\Structs\SRemoteService.cs" />
+    <Compile Include="KeyStore\Structs\SService.cs" />
+    <Compile Include="RemoteServices\Xmpp\XmppConversation.cs" />
+    <Compile Include="RemoteServices\Xmpp\XmppConversationManager.cs" />
+    <Compile Include="RemoteServices\Xmpp\XmppManager.cs" />
+    <Compile Include="RemoteServices\Xmpp\XmppSettings.cs" />
+    <Compile Include="RemoteServices\Email\EmailManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="XtsSharp\.gitignore" />
-    <None Include="XtsSharp\license.txt" />
-    <None Include="XtsSharp\readme.txt" />
-    <None Include="XtsSharp\src\XTSSharp\XTSSharp.csproj" />
+    <None Include="3rdParty\XtsSharp\.gitignore" />
+    <None Include="3rdParty\XtsSharp\license.txt" />
+    <None Include="3rdParty\XtsSharp\readme.txt" />
+    <None Include="3rdParty\XtsSharp\src\XTSSharp\XTSSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="KeyStore\" />
     <Folder Include="FileCrypter\" />
-    <Folder Include="lib\" />
-    <Folder Include="XtsSharp\" />
-    <Folder Include="XtsSharp\refs\" />
+    <Folder Include="3rdParty\" />
+    <Folder Include="3rdParty\XtsSharp\" />
+    <Folder Include="KeyStore\Structs\" />
+    <Folder Include="RemoteServices\" />
+    <Folder Include="RemoteServices\Email\" />
+    <Folder Include="RemoteServices\Xmpp\" />
   </ItemGroup>
 </Project>

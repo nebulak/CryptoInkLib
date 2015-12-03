@@ -93,7 +93,7 @@ namespace CryptoInkLib
 			string jsonKeystore = JsonConvert.SerializeObject (keyStore);
 
 			//Write Keystore to file
-			string sAppPath = System.IO.Path.Combine(c_sKeyStorePath, (c_sKeyStoreName + ".keystore"));
+			string sAppPath = Path.Combine(c_sKeyStorePath, (c_sKeyStoreName + ".keystore"));
 			File.WriteAllText(sAppPath, jsonKeystore);
 
 
@@ -110,7 +110,7 @@ namespace CryptoInkLib
 			_StreamReader.Close();
 
 
-//			//create PasswordKey from Password
+			//create PasswordKey from Password
 			KeyStore _KeyStore 			= JsonConvert.DeserializeObject <KeyStore> (sKeyStoreContent);
 			byte [] baPasswordKey 		= KeyStoreCrypto.createPasswordKey (c_sPassword, _KeyStore.PasswordKeySalt);
 
@@ -120,6 +120,7 @@ namespace CryptoInkLib
 			if (_KeyStoreStorage == null) {
 				return null;
 			}
+
 			//Create UserSession
 			UserSession _UserSession 			= new UserSession ();
 			_UserSession.m_sKeyStorePath 		= Path.Combine(c_sKeyStorePath, c_sKeyStoreName);

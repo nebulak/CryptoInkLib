@@ -13,7 +13,8 @@ namespace CryptoInkLib
 		public string 	publicKey 		{ get; set; }
 		public int 		status 			{ get; set; } // 0 - Revoked, 1 - Active
 		public string 	creationDate 	{ get; set; } // CreationDate
-		public string 	revokationDate	{ get; set; } //TODO: add to keycreation and other classes
+		public string 	revokationDate	{ get; set; }
+
 	}
 }
 
