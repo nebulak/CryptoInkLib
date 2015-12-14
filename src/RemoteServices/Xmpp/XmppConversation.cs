@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CryptoInkLib
 {
@@ -7,6 +8,9 @@ namespace CryptoInkLib
 		public XmppConversation ()
 		{
 		}
+
+		public string m_sPartner;
+		public List<XmppMessage> m_Conversation;
 	}
 }
 

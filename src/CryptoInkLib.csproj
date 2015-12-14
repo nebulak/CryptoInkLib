@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -31,26 +31,46 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\packages\BouncyCastle.1.7.0\lib\Net40-Client\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="agsXMPP">
       <HintPath>packages\agsXMPP.1.1.1.0\lib\agsXMPP.dll</HintPath>
     </Reference>
-    <Reference Include="BouncyCastle">
-      <HintPath>packages\MimeKit.1.2.15.0\lib\net45\BouncyCastle.dll</HintPath>
-    </Reference>
-    <Reference Include="MimeKit">
-      <HintPath>packages\MimeKit.1.2.15.0\lib\net45\MimeKit.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Security" />
+    <Reference Include="BouncyCastle">
+      <HintPath>packages\MimeKit.1.2.17.3\lib\net45\BouncyCastle.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit">
+      <HintPath>packages\MimeKit.1.2.17.3\lib\net45\MimeKit.dll</HintPath>
+    </Reference>
     <Reference Include="MailKit">
-      <HintPath>packages\MailKit.1.2.14\lib\net45\MailKit.dll</HintPath>
+      <HintPath>packages\MailKit.1.2.15\lib\net45\MailKit.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="websocket-sharp.clone">
+      <HintPath>packages\websocket-sharp.clone.2.0.0\lib\net45\websocket-sharp.clone.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Common">
+      <HintPath>packages\SuperWebSocketNETServer.0.8\lib\net45\SuperSocket.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Facility">
+      <HintPath>packages\SuperWebSocketNETServer.0.8\lib\net45\SuperSocket.Facility.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase">
+      <HintPath>packages\SuperWebSocketNETServer.0.8\lib\net45\SuperSocket.SocketBase.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketEngine">
+      <HintPath>packages\SuperWebSocketNETServer.0.8\lib\net45\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperWebSocket">
+      <HintPath>packages\SuperWebSocketNETServer.0.8\lib\net45\SuperWebSocket.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -85,8 +105,10 @@
     <Compile Include="RemoteServices\Xmpp\XmppConversation.cs" />
     <Compile Include="RemoteServices\Xmpp\XmppConversationManager.cs" />
     <Compile Include="RemoteServices\Xmpp\XmppManager.cs" />
-    <Compile Include="RemoteServices\Xmpp\XmppSettings.cs" />
+    <Compile Include="RemoteServices\Xmpp\XmppMessage.cs" />
     <Compile Include="RemoteServices\Email\EmailManager.cs" />
+    <Compile Include="RemoteServices\WebSocketBeam.cs" />
+    <Compile Include="RemoteServices\BeamMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -9,7 +9,7 @@ namespace CryptoInkLib
 			
 		}
 
-		public 
+
 	}
 }
 
