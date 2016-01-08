@@ -43,7 +43,6 @@ namespace CryptoInkLib
 			FileEncUserKey fileEncKey = new FileEncUserKey ();
 			fileEncKey.publicKey = Convert.ToBase64String (serializedPublic);
 			fileEncKey.privateKey = Convert.ToBase64String (encodedPrivate);
-			fileEncKey.status = 1;
 			fileEncKey.creationDate = DateTime.Now.ToString("d/M/yyyy");
 			fileEncKey.revocationDate = null;
 

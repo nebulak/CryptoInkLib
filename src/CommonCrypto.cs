@@ -47,7 +47,7 @@ namespace CryptoInkLib
 
 		public static byte[] RsaEncrypt(string b64_public_key, byte[] plain_text)
 		{
-			RsaKeyParameters publicKey = KeyStoreCrypto.decodeUserKeyPairPublic (b64_public_key);
+			RsaKeyParameters publicKey = decodeUserKeyPairPublic (b64_public_key);
 
 			// Creating the RSA algorithm object
 			IAsymmetricBlockCipher cipher = new RsaEngine();
@@ -64,7 +64,7 @@ namespace CryptoInkLib
 		public static byte[] RsaDecrypt(string b64_private_key, byte [] cipher_text)
 		{
 			// Extracting the private key from the pair
-			RsaKeyParameters privateKey = KeyStoreCrypto.decodeUserKeyPairPrivate(b64_private_key);
+			RsaKeyParameters privateKey = decodeUserKeyPairPrivate(b64_private_key);
 
 			// Creating the RSA algorithm object
 			IAsymmetricBlockCipher cipher = new RsaEngine();
@@ -72,6 +72,41 @@ namespace CryptoInkLib
 			byte[] plain_text = cipher.ProcessBlock(cipher_text, 0, cipher_text.Length);
 
 			return plain_text;
+		}
+
+
+		public static byte[] encodeUserKeyPairPrivate(AsymmetricCipherKeyPair userKey)
+		{
+			PrivateKeyInfo privateKeyInfo = PrivateKeyInfoFactory.CreatePrivateKeyInfo(userKey.Private);
+			byte[] serializedPrivateBytes = privateKeyInfo.ToAsn1Object().GetDerEncoded();
+
+			return serializedPrivateBytes;
+		}
+
+
+
+		public static RsaPrivateCrtKeyParameters decodeUserKeyPairPrivate(String privateKeyString)
+		{
+			RsaPrivateCrtKeyParameters privateKey = (RsaPrivateCrtKeyParameters) PrivateKeyFactory.CreateKey(Convert.FromBase64String(privateKeyString));
+			return privateKey;
+		}
+
+
+
+		public static RsaKeyParameters decodeUserKeyPairPublic(String publicKeyString)
+		{
+			RsaKeyParameters publicKey = (RsaKeyParameters) PublicKeyFactory.CreateKey(Convert.FromBase64String(publicKeyString));
+			return publicKey;
+		}
+
+
+
+		public static byte[] encodeUserKeyPairPublic(AsymmetricCipherKeyPair userKey)
+		{
+			SubjectPublicKeyInfo publicKeyInfo = SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(userKey.Public);
+			byte[] serializedPublicBytes = publicKeyInfo.ToAsn1Object().GetDerEncoded();
+
+			return serializedPublicBytes;
 		}
 	}
 }

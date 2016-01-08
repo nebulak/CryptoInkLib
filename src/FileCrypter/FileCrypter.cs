@@ -40,7 +40,7 @@ namespace CryptoInkLib
 
 		}
 
-		public int encryptFile(FriendUserKey[] baRecipientKeys, Stream streamPlainFile, string sPath)
+		public int encryptFile(FileEncUserKey[] baRecipientKeys, Stream streamPlainFile, string sPath)
 		{
 			//create Random Number Generator
 			var rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
@@ -86,7 +86,7 @@ namespace CryptoInkLib
 		}
 
 
-		public int decryptFile(UserKey userKey, Stream streamCipherFile, string sPath)
+		public int decryptFile(FileEncUserKey userKey, Stream streamCipherFile, string sPath)
 		{
 			byte[] baFileHeader = new byte [streamCipherFile.Length];
 			string sFileHeader = "";
@@ -135,7 +135,7 @@ namespace CryptoInkLib
 
 		}
 
-		public static Stream getCryptoStream(UserKey userKey, Stream streamCipherFile, string sPath)
+		public static Stream getCryptoStream(FileEncUserKey userKey, Stream streamCipherFile, string sPath)
 		{
 			byte[] baFileHeader = new byte [streamCipherFile.Length];
 			string sFileHeader = "";

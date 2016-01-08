@@ -25,13 +25,13 @@ namespace CryptoInkLib
 			return null;
 		}
 
-		public void addMessage(string sMessage, string sFrom, string sTo)
+		public void addMessage(string sProtocol, string sMessage, string sFrom, string sTo)
 		{
-			XmppMessage xmppMessage = new XmppMessage ();
-			xmppMessage.m_SenderJid = sFrom;
-			xmppMessage.m_ReceiverJid = sTo;
-			xmppMessage.m_Message = sMessage;
-			xmppMessage.m_Date = new DateTime ();
+			Message message = new Message ();
+			message.m_SenderId = sFrom;
+			message.m_ReceiverId = sTo;
+			message.m_Message = sMessage;
+			message.m_Date = new DateTime ();
 
 			string sPartner = "";
 
@@ -41,14 +41,14 @@ namespace CryptoInkLib
 				sPartner = sFrom;
 			}
 
-			Conversation xmppConversation =  this.getConversationWith (sPartner);
-			if (xmppConversation == null) {
-				xmppConversation = new Conversation ();
-				xmppConversation.m_sPartner = sPartner;
+			Conversation conversation =  this.getConversationWith (sPartner);
+			if (conversation == null) {
+				conversation = new Conversation ();
+				conversation.m_sPartner = sPartner;
 			} else {
-				this.m_Conversations.Remove (xmppConversation);
+				this.m_Conversations.Remove (conversation);
 			}
-			//TODO: implement correctly
+			//TODO: implement correctly and save message in encrypted database
 			/*
 			xmppConversation.m_Conversation.Add (xmppMessage);
 			BeamMessage beamMessage = new BeamMessage ();

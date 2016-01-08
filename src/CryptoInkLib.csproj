@@ -31,46 +31,32 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="agsXMPP">
       <HintPath>packages\agsXMPP.1.1.1.0\lib\agsXMPP.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Security" />
-    <Reference Include="BouncyCastle">
-      <HintPath>packages\MimeKit.1.2.17.3\lib\net45\BouncyCastle.dll</HintPath>
-    </Reference>
-    <Reference Include="MimeKit">
-      <HintPath>packages\MimeKit.1.2.17.3\lib\net45\MimeKit.dll</HintPath>
-    </Reference>
-    <Reference Include="MailKit">
-      <HintPath>packages\MailKit.1.2.15\lib\net45\MailKit.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="websocket-sharp.clone">
-      <HintPath>packages\websocket-sharp.clone.2.0.0\lib\net45\websocket-sharp.clone.dll</HintPath>
+    <Reference Include="OTRLibMono">
+      <HintPath>packages\OTRLibMono.1.0.1\lib\OTRLibMono.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Common">
-      <HintPath>packages\SuperWebSocketNETServer.0.8\lib\net45\SuperSocket.Common.dll</HintPath>
+    <Reference Include="BouncyCastle">
+      <HintPath>packages\MimeKit.1.2.19\lib\net45\BouncyCastle.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Facility">
-      <HintPath>packages\SuperWebSocketNETServer.0.8\lib\net45\SuperSocket.Facility.dll</HintPath>
+    <Reference Include="MimeKit">
+      <HintPath>packages\MimeKit.1.2.19\lib\net45\MimeKit.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.SocketBase">
-      <HintPath>packages\SuperWebSocketNETServer.0.8\lib\net45\SuperSocket.SocketBase.dll</HintPath>
+    <Reference Include="MailKit">
+      <HintPath>packages\MailKit.1.2.16\lib\net45\MailKit.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.SocketEngine">
-      <HintPath>packages\SuperWebSocketNETServer.0.8\lib\net45\SuperSocket.SocketEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperWebSocket">
-      <HintPath>packages\SuperWebSocketNETServer.0.8\lib\net45\SuperWebSocket.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.8.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +65,6 @@
     <Compile Include="KeyStore\KeyStoreCrypto.cs" />
     <Compile Include="KeyStore\KeyStoreManager.cs" />
     <Compile Include="KeyStore\KeyStoreStorage.cs" />
-    <Compile Include="KeyStore\UserKey.cs" />
     <Compile Include="KeyStore\UserSession.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="FileCrypter\FileCrypter.cs" />
@@ -87,7 +72,6 @@
     <Compile Include="FileCrypter\CInkFileHeader.cs" />
     <Compile Include="FileCrypter\EncryptedSessionKey.cs" />
     <Compile Include="FileCrypter\SessionKey.cs" />
-    <Compile Include="KeyStore\FriendUserKey.cs" />
     <Compile Include="FileCrypter\FileContentCrypter.cs" />
     <Compile Include="CommonCrypto.cs" />
     <Compile Include="FileCrypter\FileNameCrypter.cs" />
@@ -100,15 +84,18 @@
     <Compile Include="3rdParty\XtsSharp\src\XTSSharp\XtsCryptoTransform.cs" />
     <Compile Include="3rdParty\XtsSharp\src\XTSSharp\XtsSectorStream.cs" />
     <Compile Include="3rdParty\XtsSharp\src\XTSSharp\XtsStream.cs" />
-    <Compile Include="KeyStore\Structs\SRemoteService.cs" />
-    <Compile Include="KeyStore\Structs\SService.cs" />
-    <Compile Include="RemoteServices\Xmpp\XmppConversation.cs" />
-    <Compile Include="RemoteServices\Xmpp\XmppConversationManager.cs" />
     <Compile Include="RemoteServices\Xmpp\XmppManager.cs" />
-    <Compile Include="RemoteServices\Xmpp\XmppMessage.cs" />
     <Compile Include="RemoteServices\Email\EmailManager.cs" />
-    <Compile Include="RemoteServices\WebSocketBeam.cs" />
-    <Compile Include="RemoteServices\BeamMessage.cs" />
+    <Compile Include="RemoteServices\Conversation.cs" />
+    <Compile Include="RemoteServices\ConversationManager.cs" />
+    <Compile Include="RemoteServices\IProtocolManager.cs" />
+    <Compile Include="RemoteServices\Message.cs" />
+    <Compile Include="KeyStore\Key\Key.cs" />
+    <Compile Include="KeyStore\Key\ServiceInfo\SRemoteService.cs" />
+    <Compile Include="KeyStore\Key\ServiceInfo\SService.cs" />
+    <Compile Include="KeyStore\Key\KeyGenerator\KeyGenerator.cs" />
+    <Compile Include="KeyStore\Key\KeyGenerator\FileEncUserKey\FileEncUserKey.cs" />
+    <Compile Include="KeyStore\Key\KeyGenerator\FileEncUserKey\FileEncUserKeyGen.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -123,9 +110,13 @@
     <Folder Include="FileCrypter\" />
     <Folder Include="3rdParty\" />
     <Folder Include="3rdParty\XtsSharp\" />
-    <Folder Include="KeyStore\Structs\" />
     <Folder Include="RemoteServices\" />
     <Folder Include="RemoteServices\Email\" />
     <Folder Include="RemoteServices\Xmpp\" />
+    <Folder Include="KeyStore\Key\" />
+    <Folder Include="KeyStore\Key\ServiceInfo\" />
+    <Folder Include="KeyStore\Key\KeyGenerator\" />
+    <Folder Include="KeyStore\Key\KeyGenerator\FileEncUserKey\" />
+    <Folder Include="CryptoProtocols\Mono.OTR\" />
   </ItemGroup>
 </Project>

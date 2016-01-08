@@ -2,12 +2,13 @@
 
 namespace CryptoInkLib
 {
-	public class FileEncUserKey : Key
+	public class FileEncUserKey
 	{
 		public FileEncUserKey ()
 		{
 		}
 
+		public string keyID;
 		public string publicKey;
 		public string privateKey;
 		public string creationDate;

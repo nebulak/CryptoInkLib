@@ -48,11 +48,6 @@ namespace CryptoInkLib
 			 * Generate and create keys
 			*/
 
-			//create and encode userKey
-			var userKeyPair 		= KeyStoreCrypto.generateUserKeyPair (4096);
-			var encodedPrivate 		= KeyStoreCrypto.encodeUserKeyPairPrivate (userKeyPair);
-			var serializedPublic 	= KeyStoreCrypto.encodeUserKeyPairPublic (userKeyPair);
-
 			//create Random Number Generator
 			var rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
 
@@ -71,12 +66,21 @@ namespace CryptoInkLib
 			KeyStore keyStore = new KeyStore ();
 			keyStore.PasswordKeySalt = salt;
 
-			//create userKey Object
-			UserKey userKey = createUserKey (serializedPublic, encodedPrivate);
+			//TODO: save FileEncUserKey as Key
+			//create FileEncUserKey Object
+			FileEncUserKey userKey = FileEncUserKeyGen.generate();
+			userKey.keyID = c_sKeyStoreName;
 
 			//create KeyStoreStorage and add our first userKey
 			KeyStoreStorage keyStoreStorage = new KeyStoreStorage();
-			keyStoreStorage.userKeys = new [] { userKey };
+			Key firstUserKey = new Key ();
+			firstUserKey.keyID = c_sKeyStoreName;
+			firstUserKey.service = new SService();
+			firstUserKey.status = 1;
+			firstUserKey.type = "FileEncUserKey";
+			firstUserKey.keyContent = JsonConvert.SerializeObject (userKey);
+
+			keyStoreStorage.userKeys = new Key[] { firstUserKey };
 			keyStoreStorage.friendUserKeys = null;
 
 
@@ -153,18 +157,18 @@ namespace CryptoInkLib
 			return 0;
 		}
 
-
-		public UserKey createUserKey(byte[] serializedPublic, byte[] encodedPrivate)
+		/*
+		public FileEncUserKey createFileEncUserKey(byte[] serializedPublic, byte[] encodedPrivate)
 		{
-			UserKey userKey = new UserKey ();
-			userKey.publicKey = Convert.ToBase64String (serializedPublic);
-			userKey.privateKey = Convert.ToBase64String (encodedPrivate);
-			userKey.status = 1;
-			userKey.creationDate = DateTime.Now.ToString("d/M/yyyy");
-			userKey.revokationDate = null;
+			FileEncUserKey fileEncKey = new FileEncUserKey ();
+			fileEncKey.publicKey = Convert.ToBase64String (serializedPublic);
+			fileEncKey.privateKey = Convert.ToBase64String (encodedPrivate);
+			fileEncKey.status = 1;
+			fileEncKey.creationDate = DateTime.Now.ToString("d/M/yyyy");
+			fileEncKey.revocationDate = null;
 
-			return userKey;
-		}
+			return fileEncKey;
+		}*/
 
 
 		public KeyStore changeKeyStorePassword(string c_sOldPassword, string c_sNewPassword, string c_sKeyStoreName, string c_sKeyStorePath)

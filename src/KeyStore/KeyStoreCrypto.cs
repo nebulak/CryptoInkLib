@@ -33,52 +33,6 @@ namespace CryptoInkLib
 		{
 		}
 
-		public static AsymmetricCipherKeyPair generateUserKeyPair(int c_iKeySizeInBits)
-		{
-			//generate RSA-Keypair for file encryption
-			RsaKeyPairGenerator _RSAKeyPairGenerator = new RsaKeyPairGenerator();
-			_RSAKeyPairGenerator.Init(new KeyGenerationParameters(new SecureRandom(), c_iKeySizeInBits));
-			var userKey = _RSAKeyPairGenerator.GenerateKeyPair();
-
-			return userKey;
-		}
-
-
-
-		public static byte[] encodeUserKeyPairPrivate(AsymmetricCipherKeyPair userKey)
-		{
-			PrivateKeyInfo privateKeyInfo = PrivateKeyInfoFactory.CreatePrivateKeyInfo(userKey.Private);
-			byte[] serializedPrivateBytes = privateKeyInfo.ToAsn1Object().GetDerEncoded();
-
-			return serializedPrivateBytes;
-		}
-
-
-
-		public static RsaPrivateCrtKeyParameters decodeUserKeyPairPrivate(String privateKeyString)
-		{
-			RsaPrivateCrtKeyParameters privateKey = (RsaPrivateCrtKeyParameters) PrivateKeyFactory.CreateKey(Convert.FromBase64String(privateKeyString));
-			return privateKey;
-		}
-
-
-
-		public static RsaKeyParameters decodeUserKeyPairPublic(String publicKeyString)
-		{
-			RsaKeyParameters publicKey = (RsaKeyParameters) PublicKeyFactory.CreateKey(Convert.FromBase64String(publicKeyString));
-			return publicKey;
-		}
-
-
-
-		public static byte[] encodeUserKeyPairPublic(AsymmetricCipherKeyPair userKey)
-		{
-			SubjectPublicKeyInfo publicKeyInfo = SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(userKey.Public);
-			byte[] serializedPublicBytes = publicKeyInfo.ToAsn1Object().GetDerEncoded();
-
-			return serializedPublicBytes;
-		}
-
 
 
 		public static byte[] createPasswordKey(string password, byte[] salt)

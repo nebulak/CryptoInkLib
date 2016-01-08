@@ -16,7 +16,7 @@ namespace CryptoInkLib
 
 
 
-		public static string createFileHeader(byte [] baContentIV, byte[] baContentKey, byte [] baFileNameIV, byte[] baFileNameKey, FriendUserKey[] recipientKeyArray)
+		public static string createFileHeader(byte [] baContentIV, byte[] baContentKey, byte [] baFileNameIV, byte[] baFileNameKey, FileEncUserKey[] recipientKeyArray)
 		{
 			string sFileHeader = HEADER_START + CIPHER_V1;
 
@@ -52,7 +52,7 @@ namespace CryptoInkLib
 
 
 
-		public static CInkPlainHeader getDecryptedHeader(string sFileHeader, UserKey userKey)
+		public static CInkPlainHeader getDecryptedHeader(string sFileHeader, FileEncUserKey userKey)
 		{
 			
 			string sFileHeaderWithoutStartString = sFileHeader.Substring(HEADER_START.Length + CIPHER_V1.Length);

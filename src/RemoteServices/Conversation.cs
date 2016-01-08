@@ -10,7 +10,7 @@ namespace CryptoInkLib
 		}
 
 		public string m_sPartner;
-		public List<XmppMessage> m_Conversation;
+		public List<Message> m_Conversation;
 	}
 }
 

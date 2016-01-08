@@ -57,20 +57,6 @@ namespace CryptoInkLib
 
 			using (cipherTextStream) {
 				using (var stream = new XtsSectorStream (cipherTextStream, xts, sectorSize)) {
-					int current = 0;
-					//TODO: ....
-					/*
-					while (current < buffer.Length) {
-						var remaining = (buffer.Length - current);
-						if (remaining > sectorSize)
-							remaining = sectorSize;
-
-						stream.Read (buffer, current, remaining);
-
-						current += remaining;
-					}
-
-					return buffer;*/
 					return stream;
 				}
 			}

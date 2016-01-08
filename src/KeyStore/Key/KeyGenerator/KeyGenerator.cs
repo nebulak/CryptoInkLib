@@ -22,8 +22,6 @@ namespace CryptoInkLib
 				return _key;
 			}
 
-
-
 			return null;
 		}
 	}

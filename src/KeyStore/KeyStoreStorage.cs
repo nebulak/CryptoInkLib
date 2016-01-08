@@ -9,8 +9,8 @@ namespace CryptoInkLib
 
 		}
 
-		public FriendUserKey[] 	friendUserKeys { get; set; }
-		public UserKey[] 	userKeys { get; set; }
+		public Key[] 	friendUserKeys { get; set; }
+		public Key[] 	userKeys { get; set; }
 	}
 }
 

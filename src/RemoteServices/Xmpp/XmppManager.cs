@@ -5,6 +5,8 @@ using agsXMPP.protocol.client;
 using agsXMPP.Collections;
 using agsXMPP.protocol.iq.roster;
 using System.Threading;
+using MonoOTRLib;
+using Mono.OTR.Interface;
 
 
 namespace CryptoInkLib
@@ -12,7 +14,7 @@ namespace CryptoInkLib
 	/// <summary>
 	/// The XmppManager class establishs and manages a connection to a Jabber-Server
 	/// </summary>
-	public class XmppManager
+	public class XmppManager : IProtocolManager
 	{
 		/// <summary>
 		/// 
@@ -31,12 +33,27 @@ namespace CryptoInkLib
 			m_ClientConnection.OnLogin += new ObjectHandler(OnLogin);
 			m_ClientConnection.OnRosterItem += new XmppClientConnection.RosterHandler(OnRosterItem);
 			m_ClientConnection.OnPresence += new PresenceHandler(OnPresence);
+
+			//info: message callback is registered in onRosterItem callback
+		}
+
+		public string m_sProtocolName {
+			get { return "xmpp"; }
+		}
+
+		public bool m_isInstantMessageProtocol {
+			get { return true; }
 		}
 
 		/// <summary>
 		/// The m jid sender stores the JID for the loggedIn user.
 		/// </summary>
 		private Jid m_JidSender;
+
+		/// <summary>
+		/// The otr session manager.
+		/// </summary>
+		private OTRSessionManager m_OtrSessionManager;
 
 		/// <summary>
 		/// The m password stores the password for the loggedIn user.
@@ -51,7 +68,7 @@ namespace CryptoInkLib
 		/// <summary>
 		/// The conversation manager for storing a users conversations.
 		/// </summary>
-		private XmppConversationManager m_ConversationManager;
+		private ConversationManager m_ConversationManager;
 
 		/// <summary>
 		/// The m client connection stores the Jabber-Connection of the user.
@@ -89,15 +106,17 @@ namespace CryptoInkLib
 			m_ConnectionState = m_ClientConnection.XmppConnectionState;
 			m_Presence = new Presence (ShowType.chat, "Online");
 			m_Presence.Type = PresenceType.available;
-			m_ConversationManager = new XmppConversationManager ();
+			m_ConversationManager = new ConversationManager ();
 			m_ConversationManager.m_OwnJid = this.m_JidSender;
 			m_ClientConnection.Send (m_Presence);
+			m_OtrSessionManager = new OTRSessionManager(m_JidSender);
+			m_OtrSessionManager.OnOTREvent += new OTREventHandler(OnOTREvent);
 		}
 
 		private void OnRosterItem(object sender, RosterItem item)
 		{
 			m_Contacts.Add(item.GetAttribute("jid").ToString(), item.GetAttribute("name").ToString());
-			m_ClientConnection.MessageGrabber.Add(item.Jid, new BareJidComparer(), new MessageCB(MessageCallBack), null);
+			m_ClientConnection.MessageGrabber.Add(item.Jid, new BareJidComparer(), new MessageCB(MessageCallback), null);
 		}
 
 		/// <summary>
@@ -108,6 +127,17 @@ namespace CryptoInkLib
 		private void OnPresence(object oSender, Presence _presence)
 		{
 			//TODO: implement function
+
+		}
+
+		public void init()
+		{
+
+		}
+
+		public void start()
+		{
+
 		}
 
 
@@ -117,11 +147,60 @@ namespace CryptoInkLib
 		}
 
 
-		private void MessageCallBack(object sender, agsXMPP.protocol.client.Message sMessage, object oData)
+		private void MessageCallback(object sender, agsXMPP.protocol.client.Message sMessage, object oData)
 		{
 			if (sMessage.Body != null)
 			{
-				m_ConversationManager.addMessage (sMessage.Body, sMessage.From, sMessage.To);
+				m_ConversationManager.addMessage (m_sProtocolName, sMessage.Body, sMessage.From, sMessage.To);
+			}
+		}
+
+
+		private void OnOTREvent(object source, OTREventArgs e)
+		{
+			switch (e.GetOTREvent ()) {
+				//gets fired if a message is received
+				case OTR_EVENT.MESSAGE:
+					//save received message using the conversation manager
+					m_ConversationManager.addMessage ("xmpp", e.GetMessage (), e.GetSessionID (), m_JidSender);
+					break;
+
+				//gets fired if a message is ready to be sent
+				case OTR_EVENT.SEND:
+					sendMessage (e.GetMessage (), e.GetSessionID ());
+					break;
+
+
+				case OTR_EVENT.ERROR:
+
+					//  Console.WriteLine("Alice: OTR Error: {0} \n", e.GetErrorMessage());
+					//  Console.WriteLine("Alice: OTR Error Verbose: {0} \n", e.GetErrorVerbose());
+
+					break;
+
+
+				case OTR_EVENT.READY:
+					//TODO: implement store to know if an otr session is established
+					//TODO: check if correct
+					/*
+					m_OtrSessionManager.StartSMP (e.GetSessionID ());
+					m_OtrSessionManager.RequestExtraKeyUse (e.GetSessionID ());
+					m_OtrSessionManager.GetExtraSymmetricKey (e.GetSessionID ());
+					*/
+					break;
+				case OTR_EVENT.DEBUG:
+					//Console.WriteLine("Alice: " + e.GetMessage() + "\n");
+					break;
+				case OTR_EVENT.EXTRA_KEY_REQUEST:
+					m_OtrSessionManager.GetExtraSymmetricKey(e.GetSessionID());
+					break;
+				
+				case OTR_EVENT.SMP_MESSAGE:
+					//TODO: check message state
+					break;
+				case OTR_EVENT.CLOSED:
+					//TODO: set session state to not otr encrypted
+					break;
 			}
 		}
 
