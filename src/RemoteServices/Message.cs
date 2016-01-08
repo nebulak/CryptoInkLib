@@ -2,15 +2,15 @@
 
 namespace CryptoInkLib
 {
-	public class XmppMessage
+	public class Message
 	{
-		public XmppMessage ()
+		public Message ()
 		{
 		}
 
 		public string m_Message;
-		public string m_SenderJid;
-		public string m_ReceiverJid;
+		public string m_SenderId;
+		public string Message;
 		public DateTime m_Date;
 	}
 }
