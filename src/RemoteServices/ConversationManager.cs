@@ -31,7 +31,7 @@ namespace CryptoInkLib
 			message.m_SenderId = sFrom;
 			message.m_ReceiverId = sTo;
 			message.m_Message = sMessage;
-			message.m_Date = new DateTime ();
+			message.m_Date = DateTime.Now;
 
 			string sPartner = "";
 
@@ -45,9 +45,20 @@ namespace CryptoInkLib
 			if (conversation == null) {
 				conversation = new Conversation ();
 				conversation.m_sPartner = sPartner;
+				if (conversation.m_Conversation == null) {
+					conversation.m_Conversation = new List<Message> ();
+				}
+				conversation.m_Conversation.Add (message);
+				m_Conversations.Add (conversation);
 			} else {
-				this.m_Conversations.Remove (conversation);
+				conversation.m_sPartner = sPartner;
+				if (conversation.m_Conversation == null) {
+					conversation.m_Conversation = new List<Message> ();
+				}
+				conversation.m_Conversation.Add (message);
 			}
+
+
 			//TODO: implement correctly and save message in encrypted database
 			/*
 			xmppConversation.m_Conversation.Add (xmppMessage);
