@@ -55,6 +55,7 @@ namespace CryptoInkLib
 			byte[] salt = new byte[16];
 			rng.GetBytes (salt);
 
+			//TODO: check password based key derivation algorithm/ use scrypt instead?
 			byte[] passwordKey = IDCrypto.createPasswordKey (c_sPassword, salt);
 
 

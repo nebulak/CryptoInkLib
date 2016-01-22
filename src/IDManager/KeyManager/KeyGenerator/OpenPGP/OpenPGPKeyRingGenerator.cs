@@ -18,6 +18,16 @@ namespace CryptoInkLib
 		{
 		}
 
+		public static OpenPGPRing generateKeyRing(String sIdentity, String sPassword)
+		{
+			PgpKeyRingGenerator keyRingGen = generateKeyRingGenerator (sIdentity, sPassword);
+			PgpPublicKeyRing publicKeyRing = keyRingGen.GeneratePublicKeyRing ();
+			PgpSecretKeyRing privateKeyRing = keyRingGen.GenerateSecretKeyRing ();
+
+			OpenPGPRing openPgpRing = new OpenPGPRing (publicKeyRing, privateKeyRing);
+			return openPgpRing;
+		}
+
 		//src: http://stackoverflow.com/questions/17953852/generating-pgp-key-ring-using-bouncy-castle-c-results-in-key-id-ffffffff
 
 		public static PgpKeyRingGenerator generateKeyRingGenerator(String identity, String password) {
