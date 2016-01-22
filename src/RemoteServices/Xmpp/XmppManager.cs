@@ -16,7 +16,6 @@ namespace CryptoInkLib
 	/// </summary>
 	public class XmppManager : IProtocolManager
 	{
-
 		public const int OTR_STATE_CREATE_SESSION = 0;
 		public const int OTR_STATE_REQUEST_SESSION = 1;
 		public const int OTR_STATE_READY = 2;
@@ -311,18 +310,12 @@ namespace CryptoInkLib
 					Console.WriteLine ("SMP-Event: " + e.GetSMPEvent ().ToString ());
 					//TODO: check message state
 					break;
+
 				case OTR_EVENT.CLOSED:
 					//TODO: set session state to not otr encrypted
 					break;
 			}
 		}
-
-
-
-
-
-
-
 
 	}
 }

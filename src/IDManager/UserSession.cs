@@ -13,15 +13,15 @@ namespace CryptoInkLib
 		public byte [] 			m_baPasswordKey		{ get; set; }
 		public byte [] 			m_baPasswordKeySalt { get; set; }
 		public byte [] 			m_baStorage_IV 		{ get; set; }
-		public KeyStoreStorage 	m_KeyStoreStorage	{ get; set; }
+		public IDStorage 	m_KeyStoreStorage	{ get; set; }
 
-		public KeyStore toKeyStore()
+		public ID toKeyStore()
 		{
-			KeyStore _KeyStore = new KeyStore ();
+			ID _KeyStore = new ID ();
 
 			_KeyStore.PasswordKeySalt 	= this.m_baPasswordKeySalt;
 			_KeyStore.StorageIV 		= this.m_baStorage_IV;
-			_KeyStore.Storage 			= KeyStoreCrypto.encryptKeyStoreStorage (this.m_baPasswordKey, this.m_baStorage_IV, this.m_KeyStoreStorage);
+			_KeyStore.Storage 			= IDCrypto.encryptKeyStoreStorage (this.m_baPasswordKey, this.m_baStorage_IV, this.m_KeyStoreStorage);
 
 			return _KeyStore;
 		}
