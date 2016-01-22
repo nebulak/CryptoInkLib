@@ -32,17 +32,17 @@ using Org.BouncyCastle.Math;
 namespace CryptoInkLib
 {
 
-	public class KeyStoreManager
+	public class IDManager
 	{
 
-		public KeyStoreManager ()
+		public IDManager ()
 		{
 
 		}
 
 
 
-		public int createUserKeyStore(string c_sPassword, string c_sKeyStoreName, string c_sKeyStorePath)
+		public int createID(string c_sPassword, string c_sIDName, string c_sIDPath)
 		{
 			/*
 			 * Generate and create keys
@@ -55,7 +55,7 @@ namespace CryptoInkLib
 			byte[] salt = new byte[16];
 			rng.GetBytes (salt);
 
-			byte[] passwordKey = KeyStoreCrypto.createPasswordKey (c_sPassword, salt);
+			byte[] passwordKey = IDCrypto.createPasswordKey (c_sPassword, salt);
 
 
 			/*
@@ -63,25 +63,25 @@ namespace CryptoInkLib
 			*/
 
 			//create Keystore and add Header
-			KeyStore keyStore = new KeyStore ();
+			ID keyStore = new ID ();
 			keyStore.PasswordKeySalt = salt;
 
 			//TODO: save FileEncUserKey as Key
 			//create FileEncUserKey Object
 			FileEncUserKey userKey = FileEncUserKeyGen.generate();
-			userKey.keyID = c_sKeyStoreName;
+			userKey.keyID = c_sIDName;
 
 			//create KeyStoreStorage and add our first userKey
-			KeyStoreStorage keyStoreStorage = new KeyStoreStorage();
+			IDStorage keyStoreStorage = new IDStorage();
 			Key firstUserKey = new Key ();
-			firstUserKey.keyID = c_sKeyStoreName;
+			firstUserKey.keyID = c_sIDName;
 			firstUserKey.service = new SService();
 			firstUserKey.status = 1;
 			firstUserKey.type = "FileEncUserKey";
 			firstUserKey.keyContent = JsonConvert.SerializeObject (userKey);
 
-			keyStoreStorage.userKeys = new Key[] { firstUserKey };
-			keyStoreStorage.friendUserKeys = null;
+			keyStoreStorage.privateKeys = new Key[] { firstUserKey };
+			keyStoreStorage.publicKeys = null;
 
 
 			//get IV for storage encryption
@@ -91,13 +91,13 @@ namespace CryptoInkLib
 			keyStore.StorageIV = storage_iv;
 
 			//Encrypt keyStoreStorage
-			keyStore.Storage = KeyStoreCrypto.encryptKeyStoreStorage (passwordKey, storage_iv, keyStoreStorage);
+			keyStore.Storage = IDCrypto.encryptKeyStoreStorage (passwordKey, storage_iv, keyStoreStorage);
 
 			//Get KeyStore as String
 			string jsonKeystore = JsonConvert.SerializeObject (keyStore);
 
 			//Write Keystore to file
-			string sAppPath = Path.Combine(c_sKeyStorePath, (c_sKeyStoreName + ".keystore"));
+			string sAppPath = Path.Combine(c_sIDPath, (c_sIDName + ".keystore"));
 			File.WriteAllText(sAppPath, jsonKeystore);
 
 
@@ -115,11 +115,11 @@ namespace CryptoInkLib
 
 
 			//create PasswordKey from Password
-			KeyStore _KeyStore 			= JsonConvert.DeserializeObject <KeyStore> (sKeyStoreContent);
-			byte [] baPasswordKey 		= KeyStoreCrypto.createPasswordKey (c_sPassword, _KeyStore.PasswordKeySalt);
+			ID _KeyStore 			= JsonConvert.DeserializeObject <ID> (sKeyStoreContent);
+			byte [] baPasswordKey 		= IDCrypto.createPasswordKey (c_sPassword, _KeyStore.PasswordKeySalt);
 
 			 
-			KeyStoreStorage _KeyStoreStorage = KeyStoreCrypto.decryptKeyStoreStorage (baPasswordKey, _KeyStore.StorageIV, _KeyStore.Storage);
+			IDStorage _KeyStoreStorage = IDCrypto.decryptKeyStoreStorage (baPasswordKey, _KeyStore.StorageIV, _KeyStore.Storage);
 
 			if (_KeyStoreStorage == null) {
 				return null;
@@ -141,11 +141,11 @@ namespace CryptoInkLib
 		public int updateKeyStore(UserSession c_UserSession, string c_sPassword)
 		{
 			//transform UserSession to KeyStore
-			KeyStore _KeyStore = c_UserSession.toKeyStore();
+			ID _KeyStore = c_UserSession.toKeyStore();
 
 			//TODO: changed to AES-GCM, check if return value is null to check the validity
 			//check password validity
-			if( ! KeyStoreCrypto.isPasswordValid(c_sPassword, c_UserSession.m_baPasswordKeySalt, c_UserSession.m_baPasswordKey))
+			if( ! IDCrypto.isPasswordValid(c_sPassword, c_UserSession.m_baPasswordKeySalt, c_UserSession.m_baPasswordKey))
 			{
 				return 1;
 			}
@@ -171,14 +171,14 @@ namespace CryptoInkLib
 		}*/
 
 
-		public KeyStore changeKeyStorePassword(string c_sOldPassword, string c_sNewPassword, string c_sKeyStoreName, string c_sKeyStorePath)
+		public ID changeKeyStorePassword(string c_sOldPassword, string c_sNewPassword, string c_sKeyStoreName, string c_sKeyStorePath)
 		{
 			//TODO:
 			// - load keystore with password
 			// - change UserSession Keys
 			// - transform UserSession to KeyStore
 			// - save new KeyStore
-			KeyStore _KeyStore = new KeyStore ();
+			ID _KeyStore = new ID ();
 			return _KeyStore;
 		}
 

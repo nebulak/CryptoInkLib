@@ -27,9 +27,9 @@ using Org.BouncyCastle.Utilities.IO.Pem;
 
 namespace CryptoInkLib
 {
-	public class KeyStoreCrypto
+	public class IDCrypto
 	{
-		public KeyStoreCrypto ()
+		public IDCrypto ()
 		{
 		}
 
@@ -64,7 +64,7 @@ namespace CryptoInkLib
 
 
 
-		public static string encryptKeyStoreStorage(byte[] c_baKey, byte[] c_baIV, KeyStoreStorage c_KeyStoreStorage)
+		public static string encryptKeyStoreStorage(byte[] c_baKey, byte[] c_baIV, IDStorage c_KeyStoreStorage)
 		{
 			const int MacBitSize = 128;
 			byte [] baPayload = new byte[0];
@@ -86,7 +86,7 @@ namespace CryptoInkLib
 
 
 
-		public static KeyStoreStorage decryptKeyStoreStorage(byte[] c_baKey, byte[] c_baIV, string c_sBase64JsonStorage)
+		public static IDStorage decryptKeyStoreStorage(byte[] c_baKey, byte[] c_baIV, string c_sBase64JsonStorage)
 		{
 			const int MacBitSize = 128;
 			byte [] baPayload = new byte[0];
@@ -110,7 +110,7 @@ namespace CryptoInkLib
 			} 
 
 			string sJsonStorage = Encoding.GetEncoding (1252).GetString (decryptedText);
-			KeyStoreStorage _KeyStoreStorage = JsonConvert.DeserializeObject <KeyStoreStorage> (sJsonStorage);
+			IDStorage _KeyStoreStorage = JsonConvert.DeserializeObject <IDStorage> (sJsonStorage);
 
 			return _KeyStoreStorage;
 		}

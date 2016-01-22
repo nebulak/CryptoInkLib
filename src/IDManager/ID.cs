@@ -5,9 +5,9 @@ namespace CryptoInkLib
 	/// <summary>
 	/// Represents a KeyStore with it's salt for the password-key, the storage-iv and the encrypted storage of the keystore
 	/// </summary>
-	public class KeyStore
+	public class ID
 	{
-		public KeyStore ()
+		public ID ()
 		{
 
 		}
