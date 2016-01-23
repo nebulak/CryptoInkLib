@@ -37,17 +37,19 @@ namespace CryptoInkLib
 			keyRingParams.Identity = identity;
 			keyRingParams.PrivateKeyEncryptionAlgorithm = SymmetricKeyAlgorithmTag.Aes128;
 			keyRingParams.SymmetricAlgorithms = new SymmetricKeyAlgorithmTag[] {
-				SymmetricKeyAlgorithmTag.Aes256,
+				SymmetricKeyAlgorithmTag.Aes256/*,
 				SymmetricKeyAlgorithmTag.Aes192,
-				SymmetricKeyAlgorithmTag.Aes128
+				SymmetricKeyAlgorithmTag.Aes128*/
+				//TODO: delete ?
 			};
 
 			keyRingParams.HashAlgorithms = new HashAlgorithmTag[] {
 				HashAlgorithmTag.Sha256,
-				HashAlgorithmTag.Sha1,
-				HashAlgorithmTag.Sha384,
+				//TODO: delete ? + check Parameters
+				//HashAlgorithmTag.Sha1,
+				//HashAlgorithmTag.Sha384,
 				HashAlgorithmTag.Sha512,
-				HashAlgorithmTag.Sha224,
+				//HashAlgorithmTag.Sha224,
 			};
 
 			IAsymmetricCipherKeyPairGenerator generator = GeneratorUtilities.GetKeyPairGenerator("RSA");
