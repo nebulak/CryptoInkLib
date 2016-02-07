@@ -42,6 +42,8 @@ namespace CryptoInkLib
 
 
 
+
+
 		public int createID(string c_sPassword, string c_sIDName, string c_sIDPath)
 		{
 			/*
@@ -184,6 +186,12 @@ namespace CryptoInkLib
 		}
 
 
+		private int registerAccount(string c_sIdName)
+		{
+			//TODO: register an account at the provider
+			return 0;
+
+		}
 			
 	}
 }

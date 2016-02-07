@@ -4,18 +4,22 @@ using MailKit.Net.Pop3;
 using MailKit.Net.Imap;
 using MailKit;
 using MimeKit;
+using System.Collections.Generic;
 
 namespace CryptoInkLib
 {
 	public class EmailManager
 	{
-		public EmailManager (string sEmailAddress, string sPassword)
+		//TODO: get config values from dictionary
+		public EmailManager (Dictionary<string, string> dConfig, string sEmailAddress, string sPassword, ConversationManager _conversationManager)
 		{
+			this.m_ConversationManager = _conversationManager;
 			this.m_sEmailAddress = sEmailAddress;
 			this.m_sPassword = sPassword;
 		}
 
-		public EmailManager (string sEmailAddress, string sPassword, string sSmtpServerUrl, string sPop3Url, string sImapUrl)
+
+		public EmailManager (Dictionary<string, string> dConfig, string sEmailAddress, string sPassword, string sSmtpServerUrl, string sPop3Url, string sImapUrl)
 		{
 			this.m_sEmailAddress = sEmailAddress;
 			this.m_sPassword = sPassword;
@@ -24,11 +28,14 @@ namespace CryptoInkLib
 			this.m_sImapServerUrl = sImapUrl;
 		}
 
+
+		public ConversationManager m_ConversationManager;
 		public string m_sEmailAddress;
 		private string m_sPassword;
 		private string m_sSmtpServerUrl;
 		private string m_sPop3ServerUrl;
 		private string m_sImapServerUrl;
+
 
 		//TODO: add function which can also add files to email
 		public int sendMessage(string sReceiverAddress, string sMessage, string sSubject="")
@@ -57,6 +64,8 @@ namespace CryptoInkLib
 
 				client.Send (message);
 				client.Disconnect (true);
+
+				this.m_ConversationManager.addMessage ("email", sMessage, this.m_sEmailAddress, sReceiverAddress);
 			}
 
 			return 0;
