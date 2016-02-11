@@ -66,38 +66,33 @@ namespace CryptoInkLib
 			*/
 
 			//create Keystore and add Header
-			ID keyStore = new ID ();
-			keyStore.PasswordKeySalt = salt;
+			ID id = new ID ();
+			id.PasswordKeySalt = salt;
 
-			//TODO: save FileEncUserKey as Key
-			//create FileEncUserKey Object
-			FileEncUserKey userKey = FileEncUserKeyGen.generate();
-			userKey.keyID = c_sIDName;
+			//create KeyStoreStorage and add keys
+			IDStorage idStorage = new IDStorage();
 
-			//create KeyStoreStorage and add our first userKey
-			IDStorage keyStoreStorage = new IDStorage();
-			Key firstUserKey = new Key ();
-			firstUserKey.keyID = c_sIDName;
-			firstUserKey.service = new SService();
-			firstUserKey.status = 1;
-			firstUserKey.type = "FileEncUserKey";
-			firstUserKey.keyContent = JsonConvert.SerializeObject (userKey);
+			//create OpenPGP Keyring
+			OpenPGPRing pgpRing =  OpenPGPKeyRingGenerator.generateKeyRing(c_sIDName, c_sPassword);
+			Keyring pgpKeyRing = new Keyring ();
+			pgpKeyRing.keyringContent = pgpRing;
+			pgpKeyRing.keyringType = EKeyringType.OPEN_PGP;
+			idStorage.keyBox.Add (pgpKeyRing);
 
-			keyStoreStorage.privateKeys = new Key[] { firstUserKey };
-			keyStoreStorage.publicKeys = null;
 
+			//TODO: create OTR Keyring
 
 			//get IV for storage encryption
 			byte[] storage_iv 	= new byte[16];
 
 			rng.GetBytes (storage_iv);
-			keyStore.StorageIV = storage_iv;
+			id.StorageIV = storage_iv;
 
 			//Encrypt keyStoreStorage
-			keyStore.Storage = IDCrypto.encryptKeyStoreStorage (passwordKey, storage_iv, keyStoreStorage);
+			id.Storage = IDCrypto.encryptIdStorage (passwordKey, storage_iv, idStorage);
 
 			//Get KeyStore as String
-			string jsonKeystore = JsonConvert.SerializeObject (keyStore);
+			string jsonKeystore = JsonConvert.SerializeObject (id);
 
 			//Write Keystore to file
 			string sAppPath = Path.Combine(c_sIDPath, (c_sIDName + ".keystore"));

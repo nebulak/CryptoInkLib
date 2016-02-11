@@ -49,8 +49,10 @@ namespace CryptoInkLib
 			var content = response.Content;
 
 			SignupResponse apiResponse = JsonConvert.DeserializeObject<SignupResponse> (content);
+			return apiResponse;
 		}
 
+		//TODO: return RC
 		public int login(string sUsername, string sPassword)
 		{
 			var client = new RestClient(m_sApiBase);
@@ -76,7 +78,7 @@ namespace CryptoInkLib
 
 
 		//TODO: get info about how long account is valid etc....
-		public string getAccountInfo()
+		public AccountInfoResponse getAccountInfo()
 		{
 			var client = new RestClient(m_sApiBase);
 			var request = new RestRequest("me", Method.GET);
@@ -88,26 +90,27 @@ namespace CryptoInkLib
 			var content = response.Content;
 
 			AccountInfoResponse apiResponse = JsonConvert.DeserializeObject<AccountInfoResponse> (content);
+			return apiResponse;
 		}
 
 
 		//TODO: get info about configs for services
-		public Dictionary<string, string> getProviderConfigs()
-		{
-			var client = new RestClient(m_sApiBase);
-			var request = new RestRequest("configs", Method.GET);
-
-			// execute the request
-			IRestResponse response = client.Execute(request);
-			var content = response.Content;
-
-			Dictionary<string, string> apiResponse = JsonConvert.DeserializeObject<Dictionary<string, string>> (content);
-
-			//TODO: get keys of dictionary and load all configs from given urls
-			foreach (string entry in apiResponse) {
-				
-			}
-		}
+//		public Dictionary<string, string> getProviderConfigs()
+//		{
+//			var client = new RestClient(m_sApiBase);
+//			var request = new RestRequest("configs", Method.GET);
+//
+//			// execute the request
+//			IRestResponse response = client.Execute(request);
+//			var content = response.Content;
+//
+//			Dictionary<string, string> apiResponse = JsonConvert.DeserializeObject<Dictionary<string, string>> (content);
+//
+//			//TODO: get keys of dictionary and load all configs from given urls
+//			foreach (string entry in apiResponse) {
+//				
+//			}
+//		}
 
 
 	}

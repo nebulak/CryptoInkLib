@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CryptoInkLib
 {
@@ -8,16 +9,13 @@ namespace CryptoInkLib
 		{
 
 		}
-
-		public KeyBox 		 keyBox { get; set; }
+			
+		public List<Keyring> keyBox { get; set; }
 		//TODO: implement Contact, Settings and readd following lines
 		//public List<Contact> contacts { get; set; }
 		//public Settings settings { get; set; }
 		//public byte[] conversationDBKey { get; set; } //for CryptoSQLite
 
-		//TODO: delete the following 2 key arrays...
-		public Key[] 	publicKeys { get; set; }
-		public Key[] 	privateKeys { get; set; }
 	}
 }
 

@@ -21,7 +21,7 @@ namespace CryptoInkLib
 
 			_KeyStore.PasswordKeySalt 	= this.m_baPasswordKeySalt;
 			_KeyStore.StorageIV 		= this.m_baStorage_IV;
-			_KeyStore.Storage 			= IDCrypto.encryptKeyStoreStorage (this.m_baPasswordKey, this.m_baStorage_IV, this.m_KeyStoreStorage);
+			_KeyStore.Storage 			= IDCrypto.encryptIdStorage (this.m_baPasswordKey, this.m_baStorage_IV, this.m_KeyStoreStorage);
 
 			return _KeyStore;
 		}

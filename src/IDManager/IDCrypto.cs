@@ -64,7 +64,7 @@ namespace CryptoInkLib
 
 
 
-		public static string encryptKeyStoreStorage(byte[] c_baKey, byte[] c_baIV, IDStorage c_KeyStoreStorage)
+		public static string encryptIdStorage(byte[] c_baKey, byte[] c_baIV, IDStorage c_KeyStoreStorage)
 		{
 			const int MacBitSize = 128;
 			byte [] baPayload = new byte[0];
