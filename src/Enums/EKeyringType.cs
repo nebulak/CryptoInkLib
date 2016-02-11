@@ -6,7 +6,8 @@ namespace CryptoInkLib
 	{
 		OTHER,
 		OTR,
-		OPEN_PGP
+		OPEN_PGP,
+		FILE_ENC
 	}
 }
 
