@@ -101,7 +101,6 @@
     <Compile Include="RemoteServices\IProtocolManager.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Logger\ELogLevel.cs" />
-    <Compile Include="AccountManager\AccountManager.cs" />
     <Compile Include="IDManager\UserSession.cs" />
     <Compile Include="IDManager\IDManager.cs" />
     <Compile Include="IDManager\ID.cs" />
@@ -153,7 +152,6 @@
     <Folder Include="RemoteServices\Xmpp\" />
     <Folder Include="Logger\" />
     <Folder Include="ContactManager\" />
-    <Folder Include="AccountManager\" />
     <Folder Include="IDManager\" />
     <Folder Include="ReturnCodes\" />
     <Folder Include="ConversationManager\" />
