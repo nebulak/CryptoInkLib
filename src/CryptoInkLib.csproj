@@ -107,27 +107,18 @@
     <Compile Include="IDManager\ID.cs" />
     <Compile Include="IDManager\IDCrypto.cs" />
     <Compile Include="IDManager\IDStorage.cs" />
-    <Compile Include="IDManager\KeyBox.cs" />
     <Compile Include="IDManager\Keyring.cs" />
-    <Compile Include="IDManager\EKeyringType.cs" />
     <Compile Include="ConversationManager\Conversation.cs" />
     <Compile Include="ConversationManager\ConversationManager.cs" />
     <Compile Include="ConversationManager\CryptoConversationManager.cs" />
     <Compile Include="ConversationManager\Message.cs" />
-    <Compile Include="IDManager\KeyManager\Key.cs" />
-    <Compile Include="IDManager\KeyManager\ServiceInfo\SRemoteService.cs" />
-    <Compile Include="IDManager\KeyManager\ServiceInfo\SService.cs" />
-    <Compile Include="IDManager\KeyManager\KeyGenerator\KeyGenerator.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\FileEncUserKey\FileEncUserKey.cs" />
-    <Compile Include="IDManager\KeyManager\ServiceInfo\EServiceType.cs" />
-    <Compile Include="IDManager\KeyManager\ServiceInfo\EAuthType.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\OpenPGP\OpenPGPKeyRingGenerator.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\OpenPGP\OpenPGPKeyringParams.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\OpenPGP\OpenPGPRing.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\FileEncUserKeyGen.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\OpenPGPKeyGen.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\OTRKeyGen.cs" />
-    <Compile Include="RemoteServices\Email\openPgpCrypter.cs" />
     <Compile Include="RemoteServices\Email\EmailManager.cs" />
     <Compile Include="RemoteServices\Email\EmailHelper.cs" />
     <Compile Include="ContactManager\ContactManager.cs" />
@@ -140,6 +131,9 @@
     <Compile Include="ServerApi\LoginResponse.cs" />
     <Compile Include="dKeybaseApi\dKeybaseApi.cs" />
     <Compile Include="RemoteServices\MessagingManager.cs" />
+    <Compile Include="RemoteServices\Email\OpenPgpCrypter.cs" />
+    <Compile Include="Enums\EKeyringType.cs" />
+    <Compile Include="Enums\ERC.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\SQLitePCL.raw.0.8.1\build\net45\SQLitePCL.raw.targets" Condition="Exists('packages\SQLitePCL.raw.0.8.1\build\net45\SQLitePCL.raw.targets')" />
@@ -164,7 +158,6 @@
     <Folder Include="ReturnCodes\" />
     <Folder Include="ConversationManager\" />
     <Folder Include="IDManager\KeyManager\" />
-    <Folder Include="IDManager\KeyManager\ServiceInfo\" />
     <Folder Include="IDManager\KeyManager\KeyGenerator\" />
     <Folder Include="IDManager\KeyManager\KeyGenerator\FileEncUserKey\" />
     <Folder Include="IDManager\KeyManager\KeyGenerator\OpenPGP\" />
