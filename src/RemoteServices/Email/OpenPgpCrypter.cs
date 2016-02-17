@@ -39,9 +39,42 @@ namespace CryptoInkLib
 		public string encryptPgpString(string inputString, long receiverId)
 		{
 			// use armor: yes, use integrity check? yes?
-			return encryptPgpString(inputString, receiverId,true, true);
+			return encryptPgpString(inputString, receiverId, true, true);
 		}
 
+
+		public string encryptPgpString(string inputString, string sReceiver, bool armor, bool withIntegrityCheck)
+		{
+			PgpPublicKey pubKey = ReadPublicKey(sReceiver);
+
+			using (MemoryStream outputBytes = getMemoryStreamFromString(inputString))
+			{
+				PgpEncryptedDataGenerator dataGenerator = new PgpEncryptedDataGenerator(SymmetricKeyAlgorithmTag.Aes256, withIntegrityCheck, new SecureRandom());
+
+				dataGenerator.AddMethod(pubKey);
+				byte[] dataBytes = outputBytes.ToArray();
+
+				using ( Stream outputStream = new MemoryStream() )
+				{
+					if (armor)
+					{
+						using (ArmoredOutputStream armoredStream = new ArmoredOutputStream(outputStream))
+						{
+							Stream encryptedStream = writeStream(dataGenerator.Open(armoredStream, dataBytes.Length), ref dataBytes);
+							string sOutputString = getStringFromStream (encryptedStream);
+							return sOutputString;
+
+						}
+					}
+					else
+					{
+						Stream encryptedStream = writeStream(dataGenerator.Open(outputStream, dataBytes.Length), ref dataBytes);
+						string sOutputString = getStringFromStream (encryptedStream);
+						return sOutputString;
+					}
+				}
+			}
+		}
 
 		public string encryptPgpString(string inputString, long receiverId, bool armor, bool withIntegrityCheck)
 		{
@@ -200,6 +233,32 @@ namespace CryptoInkLib
 			throw new ArgumentException("Can't find encryption key in key ring.");
 		}
 
+		public PgpPublicKey ReadPublicKey(string sEmail)
+		{
+			foreach (PgpPublicKey publicKey in m_PublicKeyRing.GetPublicKeys()) {
+				//check if emailaddress is correct
+				foreach (object userId in publicKey.GetUserIds()) {
+					//Prints "My_Key_Name (Notes) <my_email@gmail.com>"
+					if (userId.ToString ().Contains ("@")) {
+						char[] separators = { '<', '>' };
+						string[] sSubStrings = userId.ToString ().Split (separators);
+
+						if (sSubStrings.Length > 1) {
+							for (int i = 0; i < sSubStrings.Length; i++) {
+								if (sSubStrings [i].ToLower () == sEmail.ToLower ()) {
+									//check if key is encryption key
+									if (publicKey.IsEncryptionKey)
+									{
+										return publicKey;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			throw new ArgumentException("Can't find encryption key in key ring.");
+		}
 
 		private PgpPrivateKey FindSecretKey(long keyId)
 		{

@@ -16,11 +16,13 @@ namespace CryptoInkLib
 	{
 		public PgpPublicKeyRing m_PublicKeyRing;
 		public PgpSecretKeyRing m_PrivateKeyRing;
+		public char[] m_cPassword;
 
-		public OpenPGPRing (PgpPublicKeyRing _pgpPublicKeyRing, PgpSecretKeyRing _pgpSecretKeyRing)
+		public OpenPGPRing (PgpPublicKeyRing _pgpPublicKeyRing, PgpSecretKeyRing _pgpSecretKeyRing, char [] cPassword)
 		{
 			this.m_PublicKeyRing = _pgpPublicKeyRing;
 			this.m_PrivateKeyRing = _pgpSecretKeyRing;
+			this.m_cPassword = cPassword;
 		}
 	}
 }

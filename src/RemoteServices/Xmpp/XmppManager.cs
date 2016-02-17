@@ -20,22 +20,24 @@ namespace CryptoInkLib
 		public const int OTR_STATE_REQUEST_SESSION = 1;
 		public const int OTR_STATE_READY = 2;
 
+		//TODO: add OTR-Key in constructor
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="sJid">S jid.</param>
 		/// <param name="sPassword">S password.</param>
-		public XmppManager (string sJid, string sPassword, ConversationManager _conversationManager, Logger _logger)
+		public XmppManager (AuthInfo authInfo, XmppServiceDescription xmppServiceDescription, ConversationManager _conversationManager, Logger _logger)
 		{
 			try
 			{
 				m_Logger = _logger;
-				m_JidSender = new Jid (sJid);
+				m_AuthInfo = authInfo;
+				m_XmppServiceDescription = xmppServiceDescription;
+				m_JidSender = new Jid (m_AuthInfo.m_sId);
 				m_ClientConnection = new XmppClientConnection(m_JidSender.Server);
-				m_Password = sPassword;
 				m_Contacts = new Dictionary<string, string> ();
 				m_Logger.log(ELogLevel.LVL_INFO, "Trying to log in xmpp user", m_sModuleName);
-				m_ClientConnection.Open(m_JidSender.User, m_Password);
+				m_ClientConnection.Open(m_JidSender.User, m_AuthInfo.m_sPassword);
 				m_ConversationManager = _conversationManager;
 				m_OtrConnections = new Dictionary<string, int>();
 
@@ -50,6 +52,9 @@ namespace CryptoInkLib
 
 			//info: message callback is registered in onRosterItem callback
 		}
+
+		private XmppServiceDescription m_XmppServiceDescription;
+		private AuthInfo m_AuthInfo;
 
 		private Logger m_Logger;
 		
@@ -74,10 +79,6 @@ namespace CryptoInkLib
 
 		private Dictionary<string, int> m_OtrConnections;
 
-		/// <summary>
-		/// The m password stores the password for the loggedIn user.
-		/// </summary>
-		private string m_Password;
 
 		/// <summary>
 		/// Dictionary for storing Jid-Username.

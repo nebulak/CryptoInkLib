@@ -24,7 +24,7 @@ namespace CryptoInkLib
 			PgpPublicKeyRing publicKeyRing = keyRingGen.GeneratePublicKeyRing ();
 			PgpSecretKeyRing privateKeyRing = keyRingGen.GenerateSecretKeyRing ();
 
-			OpenPGPRing openPgpRing = new OpenPGPRing (publicKeyRing, privateKeyRing);
+			OpenPGPRing openPgpRing = new OpenPGPRing (publicKeyRing, privateKeyRing, sPassword.ToCharArray());
 			return openPgpRing;
 		}
 

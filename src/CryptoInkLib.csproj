@@ -98,7 +98,6 @@
     <Compile Include="3rdParty\XtsSharp\src\XTSSharp\XtsSectorStream.cs" />
     <Compile Include="3rdParty\XtsSharp\src\XTSSharp\XtsStream.cs" />
     <Compile Include="RemoteServices\Xmpp\XmppManager.cs" />
-    <Compile Include="RemoteServices\IProtocolManager.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Logger\ELogLevel.cs" />
     <Compile Include="IDManager\UserSession.cs" />
@@ -133,6 +132,10 @@
     <Compile Include="RemoteServices\Email\OpenPgpCrypter.cs" />
     <Compile Include="Enums\EKeyringType.cs" />
     <Compile Include="Enums\ERC.cs" />
+    <Compile Include="RemoteServices\Email\EmailServiceDescription.cs" />
+    <Compile Include="RemoteServices\Xmpp\XmppServiceDescription.cs" />
+    <Compile Include="Enums\EAuthType.cs" />
+    <Compile Include="RemoteServices\AuthInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\SQLitePCL.raw.0.8.1\build\net45\SQLitePCL.raw.targets" Condition="Exists('packages\SQLitePCL.raw.0.8.1\build\net45\SQLitePCL.raw.targets')" />
@@ -153,7 +156,6 @@
     <Folder Include="Logger\" />
     <Folder Include="ContactManager\" />
     <Folder Include="IDManager\" />
-    <Folder Include="ReturnCodes\" />
     <Folder Include="ConversationManager\" />
     <Folder Include="IDManager\KeyManager\" />
     <Folder Include="IDManager\KeyManager\KeyGenerator\" />
