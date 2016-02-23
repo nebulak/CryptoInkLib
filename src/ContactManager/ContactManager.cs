@@ -39,32 +39,30 @@ namespace CryptoInkLib
 		}
 
 
-		public int updateContact(Contact updatedContact, Contact originalContact)
+		public RC updateContact(Contact updatedContact, Contact originalContact)
 		{
 			if (m_Contacts.Contains (originalContact)) {
 				bool rc = m_Contacts.Remove (originalContact);
 
 				if (rc == false) {
-					//TODO: return error code
-					return 2;
+					return RC.RC_CONTACT_COULD_NOT_BE_UPDATED;
 				}
 				m_Contacts.Add (updatedContact);
 
-				return 0;
+				return RC.RC_OK;
 			}
-			//TODO: return error code
-			return 2;
+			return RC.RC_CONTACT_COULD_NOT_BE_UPDATED;
 		}
 
 
-		public int deleteContact(Contact contact)
+		public RC deleteContact(Contact contact)
 		{
 			bool rc = m_Contacts.Remove (contact);
 			if (rc == false) {
 				//TODO: return error code
-				return 2;
+				return RC.RC_CONTACT_COULD_NOT_BE_DELETED;
 			}
-			return 0;
+			return RC.RC_OK;
 		}
 
 
@@ -75,15 +73,30 @@ namespace CryptoInkLib
 					return contact;
 				}
 			}
-			//TODO: return null...
+			//return empty contact
+			//TODO: should an exception be thrown?
 			return new Contact();
 		}
 
 
 		public Contact getContactById(string sId)
 		{
-			//TODO: implement
+			foreach (Contact contact in m_Contacts) {
+				if (contact.sId == sId) {
+					return contact;
+				}
+			}
+			//TODO: should an exception be thrown?
 			return new Contact();
+		}
+
+
+		public bool isProtocolSupportedByContact(Contact contact, ECommunicationProtocols eProtocol)
+		{
+			if (contact.supportedProtocols.Contains (eProtocol)) {
+				return true;
+			}
+			return false;
 		}
 	}
 }

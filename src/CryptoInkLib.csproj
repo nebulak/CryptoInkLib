@@ -108,15 +108,11 @@
     <Compile Include="IDManager\Keyring.cs" />
     <Compile Include="ConversationManager\Conversation.cs" />
     <Compile Include="ConversationManager\ConversationManager.cs" />
-    <Compile Include="ConversationManager\CryptoConversationManager.cs" />
     <Compile Include="ConversationManager\Message.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\FileEncUserKey\FileEncUserKey.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\OpenPGP\OpenPGPKeyRingGenerator.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\OpenPGP\OpenPGPKeyringParams.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\OpenPGP\OpenPGPRing.cs" />
-    <Compile Include="IDManager\KeyManager\KeyGenerator\FileEncUserKeyGen.cs" />
-    <Compile Include="IDManager\KeyManager\KeyGenerator\OpenPGPKeyGen.cs" />
-    <Compile Include="IDManager\KeyManager\KeyGenerator\OTRKeyGen.cs" />
     <Compile Include="RemoteServices\Email\EmailManager.cs" />
     <Compile Include="RemoteServices\Email\EmailHelper.cs" />
     <Compile Include="ContactManager\ContactManager.cs" />
@@ -136,6 +132,10 @@
     <Compile Include="RemoteServices\Xmpp\XmppServiceDescription.cs" />
     <Compile Include="Enums\EAuthType.cs" />
     <Compile Include="RemoteServices\AuthInfo.cs" />
+    <Compile Include="Enums\ECommunicationProtocols.cs" />
+    <Compile Include="IDManager\KeyManager\KeyGenerator\OTR\OTRKeyRing.cs" />
+    <Compile Include="IDManager\KeyManager\KeyGenerator\OTR\OTRKeyRingGenerator.cs" />
+    <Compile Include="IDManager\KeyManager\KeyGenerator\FileEncUserKey\FileEncUserKeyGen.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\SQLitePCL.raw.0.8.1\build\net45\SQLitePCL.raw.targets" Condition="Exists('packages\SQLitePCL.raw.0.8.1\build\net45\SQLitePCL.raw.targets')" />
@@ -163,5 +163,6 @@
     <Folder Include="IDManager\KeyManager\KeyGenerator\OpenPGP\" />
     <Folder Include="ServerApi\" />
     <Folder Include="dKeybaseApi\" />
+    <Folder Include="IDManager\KeyManager\KeyGenerator\OTR\" />
   </ItemGroup>
 </Project>

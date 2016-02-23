@@ -11,6 +11,7 @@ namespace CryptoInkLib
 		public int rc;
 		public int error_description;
 		public string auth_token;
+		public DateTime valid_until;
 	}
 }
 

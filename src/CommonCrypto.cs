@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Security.Cryptography;
 using System.Reflection;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto; //PBEParametersGenerator;
@@ -10,6 +11,7 @@ using Org.BouncyCastle.Asn1.Pkcs;
 using Org.BouncyCastle.Pkcs;
 using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.X509;
+using Org.BouncyCastle.Crypto.Prng;
 
 
 using Org.BouncyCastle.Crypto.Digests; //SHA3Digest;
@@ -107,6 +109,28 @@ namespace CryptoInkLib
 			byte[] serializedPublicBytes = publicKeyInfo.ToAsn1Object().GetDerEncoded();
 
 			return serializedPublicBytes;
+		}
+
+
+		//src: http://stackoverflow.com/questions/1344221/how-can-i-generate-random-alphanumeric-strings-in-c
+		public static string getRandomString(int maxSize)
+		{
+			char[] chars = new char[62];
+			chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+			byte[] data = new byte[1];
+			//TODO: use own PRNG !
+			using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
+			{
+				crypto.GetNonZeroBytes(data);
+				data = new byte[maxSize];
+				crypto.GetNonZeroBytes(data);
+			}
+			StringBuilder result = new StringBuilder(maxSize);
+			foreach (byte b in data)
+			{
+				result.Append(chars[b % (chars.Length)]);
+			}
+			return result.ToString();
 		}
 	}
 }

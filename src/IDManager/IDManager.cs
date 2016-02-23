@@ -44,8 +44,34 @@ namespace CryptoInkLib
 
 
 
-		public int createID(string c_sPassword, string c_sIDName, string c_sIDPath)
+		public RC createID(string c_sPassword, string c_sIDName, string c_sIDPath, string sProviderDomain, string sServiceLevelName)
 		{
+			AccountApi accountApi = new AccountApi (sProviderDomain);
+
+			//check if service level exists
+			ProviderInfo providerInfo = accountApi.getProviderInfo ();
+			bool bDoesServiceLevelExist = false;
+			foreach (ServiceLevel level in providerInfo.levels) {
+				if (level.name == sServiceLevelName) {
+					bDoesServiceLevelExist = true;
+					break;
+				}
+			}
+			if (bDoesServiceLevelExist == false) {
+				return RC.RC_SERVICE_LEVEL_NOT_AVAILABLE;
+			}
+
+			//TODO: create random password for provider
+			string sProviderPassword = CommonCrypto.getRandomString(36);
+
+
+			//TODO: use isUsernameAvailable to check username at provider...
+			SignupResponse signupResponse = accountApi.signup(c_sIDName, sProviderPassword, sServiceLevelName);
+			if (signupResponse.rc != 0) {
+				//TODO: check for errors
+			}
+
+
 			/*
 			 * Generate and create keys
 			*/
@@ -81,6 +107,10 @@ namespace CryptoInkLib
 
 
 			//TODO: create OTR Keyring
+			OTRKeyRing otrRing = OTRKeyRingGenerator.generateKeyRing();
+			Keyring otrKeyRing = new Keyring ();
+			otrKeyRing.keyringContent = otrRing;
+			otrKeyRing.keyringType = EKeyringType.OTR;
 
 			//get IV for storage encryption
 			byte[] storage_iv 	= new byte[16];

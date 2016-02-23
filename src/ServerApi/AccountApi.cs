@@ -16,6 +16,7 @@ namespace CryptoInkLib
 		public string m_sApiBase;
 		private string m_sAuthToken;
 
+
 		public ProviderInfo getProviderInfo()
 		{
 			var client = new RestClient(m_sDomain);
@@ -50,6 +51,11 @@ namespace CryptoInkLib
 
 			SignupResponse apiResponse = JsonConvert.DeserializeObject<SignupResponse> (content);
 			return apiResponse;
+		}
+
+		public bool isUsernameAvailable(string sUsername)
+		{
+			//TODO: implement
 		}
 
 		//TODO: return RC

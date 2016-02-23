@@ -7,7 +7,6 @@ namespace CryptoInkLib
 	{
 		public string sNickname;
 		public string sId; //Email-address/JID
-
-		public List<string> supportedProtocols;
+		public List<ECommunicationProtocols> supportedProtocols;
 	}
 }
