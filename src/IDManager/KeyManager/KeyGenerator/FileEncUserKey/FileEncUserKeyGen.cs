@@ -41,6 +41,8 @@ namespace CryptoInkLib
 			var serializedPublic 	= encodeUserKeyPairPublic (userKeyPair);
 
 			FileEncUserKey fileEncKey = new FileEncUserKey ();
+			//TODO: use Hex instead of Base64
+
 			fileEncKey.publicKey = Convert.ToBase64String (serializedPublic);
 			fileEncKey.privateKey = Convert.ToBase64String (encodedPrivate);
 			fileEncKey.creationDate = DateTime.Now.ToString("d/M/yyyy");

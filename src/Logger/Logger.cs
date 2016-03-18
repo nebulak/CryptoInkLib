@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 
 namespace CryptoInkLib
@@ -27,6 +28,9 @@ namespace CryptoInkLib
 			switch (m_sLogType) {
 			case "memory":
 				m_LogList.Add (createLogEntry (eLogLevel, sMessage, sModule));
+				break;
+			case "console":
+				Console.WriteLine (createLogEntry (eLogLevel, sMessage, sModule));
 				break;
 			default:
 				m_LogList.Add (createLogEntry (eLogLevel, sMessage, sModule));

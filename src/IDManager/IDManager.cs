@@ -41,9 +41,6 @@ namespace CryptoInkLib
 		}
 
 
-
-
-
 		public RC createID(string c_sPassword, string c_sIDName, string c_sIDPath, string sProviderDomain, string sServiceLevelName)
 		{
 			AccountApi accountApi = new AccountApi (sProviderDomain);
@@ -61,14 +58,18 @@ namespace CryptoInkLib
 				return RC.RC_SERVICE_LEVEL_NOT_AVAILABLE;
 			}
 
-			//TODO: create random password for provider
+			//create random password for provider
 			string sProviderPassword = CommonCrypto.getRandomString(36);
 
 
-			//TODO: use isUsernameAvailable to check username at provider...
+			//check if username is available at provider...
+			if (accountApi.isUsernameAvailable (c_sIDName) == false) {
+				return RC.RC_USERNAME_NOT_AVAILABLE;
+			}
+
 			SignupResponse signupResponse = accountApi.signup(c_sIDName, sProviderPassword, sServiceLevelName);
 			if (signupResponse.rc != 0) {
-				//TODO: check for errors
+				return RC.RC_SIGNUP_FAILED;
 			}
 
 
@@ -106,8 +107,8 @@ namespace CryptoInkLib
 			idStorage.keyBox.Add (pgpKeyRing);
 
 
-			//TODO: create OTR Keyring
-			OTRKeyRing otrRing = OTRKeyRingGenerator.generateKeyRing();
+			//create OTR Keyring
+			OTRKeyRing otrRing = OTRKeyRingGenerator.createOTRKeyRing(c_sIDName);
 			Keyring otrKeyRing = new Keyring ();
 			otrKeyRing.keyringContent = otrRing;
 			otrKeyRing.keyringType = EKeyringType.OTR;
@@ -166,23 +167,22 @@ namespace CryptoInkLib
 
 
 
-		public int updateKeyStore(UserSession c_UserSession, string c_sPassword)
+		public RC updateKeyStore(UserSession c_UserSession, string c_sPassword)
 		{
 			//transform UserSession to KeyStore
 			ID _KeyStore = c_UserSession.toKeyStore();
 
-			//TODO: changed to AES-GCM, check if return value is null to check the validity
 			//check password validity
 			if( ! IDCrypto.isPasswordValid(c_sPassword, c_UserSession.m_baPasswordKeySalt, c_UserSession.m_baPasswordKey))
 			{
-				return 1;
+				return RC.RC_WRONG_PW;
 			}
 
 			//create KeyStore as String
 			string sJsonKeyStore = JsonConvert.SerializeObject (_KeyStore);
 
 
-			return 0;
+			return RC.RC_OK;
 		}
 
 		/*
@@ -208,14 +208,6 @@ namespace CryptoInkLib
 			// - save new KeyStore
 			ID _KeyStore = new ID ();
 			return _KeyStore;
-		}
-
-
-		private int registerAccount(string c_sIdName)
-		{
-			//TODO: register an account at the provider
-			return 0;
-
 		}
 			
 	}

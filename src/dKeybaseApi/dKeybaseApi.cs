@@ -7,6 +7,15 @@ namespace CryptoInkLib
 		public dKeybaseApi ()
 		{
 		}
+
+
+		public string getProfile(string sID)
+		{
+			//TODO: implement function
+			return "";
+		}
+
+
 	}
 }
 

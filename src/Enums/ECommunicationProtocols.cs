@@ -8,8 +8,8 @@ namespace CryptoInkLib
 		EMAIL_OPENPGP = 2,
 		XMPP_PLAIN = 11,
 		XMPP_OTR2 = 12,
-		XMPP_OTR3 = 13
-
+		XMPP_OTR3 = 13,
+		XMPP_OPENPGP = 14
 	}
 }
 

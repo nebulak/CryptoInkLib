@@ -19,19 +19,17 @@ namespace CryptoInkLib
 
 
 
-		public int addContact(Contact newContact)
+		public RC addContact(Contact newContact)
 		{
 			//check if contact already exists
 			foreach(Contact _contact in m_Contacts)
 			{
 				if (_contact.sId == newContact.sId) {
-					//TODO: return errorcode
-					return 1;
+					return RC.RC_CONTACT_ALREADY_EXISTS;
 				}
 
 				if (_contact.sNickname == newContact.sNickname) {
-					//TODO: return errorcode
-					return 2;
+					return RC.RC_CONTACT_ALREADY_EXISTS;
 				}
 			}
 			m_Contacts.Add (newContact);
@@ -59,7 +57,6 @@ namespace CryptoInkLib
 		{
 			bool rc = m_Contacts.Remove (contact);
 			if (rc == false) {
-				//TODO: return error code
 				return RC.RC_CONTACT_COULD_NOT_BE_DELETED;
 			}
 			return RC.RC_OK;
@@ -74,7 +71,6 @@ namespace CryptoInkLib
 				}
 			}
 			//return empty contact
-			//TODO: should an exception be thrown?
 			return new Contact();
 		}
 
@@ -86,7 +82,6 @@ namespace CryptoInkLib
 					return contact;
 				}
 			}
-			//TODO: should an exception be thrown?
 			return new Contact();
 		}
 

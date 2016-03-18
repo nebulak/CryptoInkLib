@@ -39,13 +39,6 @@ namespace CryptoInkLib
 		public CommonCrypto ()
 		{
 		}
-		//TODO:
-		//put static crypto functions in this file e.g.
-		//RsaEncrypt
-		//decodeUserKey
-		//encodeUserKey
-		//AES XTS-Encrypt
-		//AES XTS-Decrypt
 
 		public static byte[] RsaEncrypt(string b64_public_key, byte[] plain_text)
 		{

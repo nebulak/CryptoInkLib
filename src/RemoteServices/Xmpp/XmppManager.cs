@@ -14,23 +14,24 @@ namespace CryptoInkLib
 	/// <summary>
 	/// The XmppManager class establishs and manages a connection to a Jabber-Server
 	/// </summary>
-	public class XmppManager : IProtocolManager
+	public class XmppManager
 	{
 		public const int OTR_STATE_CREATE_SESSION = 0;
 		public const int OTR_STATE_REQUEST_SESSION = 1;
 		public const int OTR_STATE_READY = 2;
 
-		//TODO: add OTR-Key in constructor
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="sJid">S jid.</param>
 		/// <param name="sPassword">S password.</param>
-		public XmppManager (AuthInfo authInfo, XmppServiceDescription xmppServiceDescription, ConversationManager _conversationManager, Logger _logger)
+		public XmppManager (AuthInfo authInfo, XmppServiceDescription xmppServiceDescription, OTRKeyRing _OTRKeyRing, OpenPGPRing _OpenPGPRing, ConversationManager _conversationManager, ContactManager _contactMgr, Logger _logger)
 		{
 			try
 			{
 				m_Logger = _logger;
+				m_OTRKeyRing = _OTRKeyRing;
+				m_OpenPGPRing = _OpenPGPRing;
 				m_AuthInfo = authInfo;
 				m_XmppServiceDescription = xmppServiceDescription;
 				m_JidSender = new Jid (m_AuthInfo.m_sId);
@@ -39,6 +40,7 @@ namespace CryptoInkLib
 				m_Logger.log(ELogLevel.LVL_INFO, "Trying to log in xmpp user", m_sModuleName);
 				m_ClientConnection.Open(m_JidSender.User, m_AuthInfo.m_sPassword);
 				m_ConversationManager = _conversationManager;
+				m_ContactManager = _contactMgr;
 				m_OtrConnections = new Dictionary<string, int>();
 
 				//register EventHandlers
@@ -55,7 +57,9 @@ namespace CryptoInkLib
 
 		private XmppServiceDescription m_XmppServiceDescription;
 		private AuthInfo m_AuthInfo;
-
+		private OTRKeyRing m_OTRKeyRing;
+		private OpenPGPRing m_OpenPGPRing;
+		private ContactManager m_ContactManager;
 		private Logger m_Logger;
 		
 		public static string m_sProtocolName = "xmpp";
@@ -136,7 +140,7 @@ namespace CryptoInkLib
 				else
 				{
 					m_Logger.log(ELogLevel.LVL_INFO, "Xmpp user could not be authenticated or is not connected.", m_sModuleName);
-					//TODO: start a new authentication
+					m_ClientConnection.Open(m_JidSender.User, m_AuthInfo.m_sPassword);
 					return;
 				}
 
@@ -170,17 +174,24 @@ namespace CryptoInkLib
 		{
 			//TODO: implement function
 
+
 		}
 
-		public void init()
+
+		public void updatePresence(bool bIsVisible)
 		{
+			Presence presence = new Presence (ShowType.chat, "Online");
+			presence.Type = PresenceType.available;
 
+			if(bIsVisible == false)
+			{
+				presence = new Presence (ShowType.away, "away");
+				presence.Type = PresenceType.invisible;
+			}
+
+			m_ClientConnection.Send(presence);
 		}
 
-		public void start()
-		{
-
-		}
 
 
 		public void sendMessage(string sMessage, string sReceiverName)
@@ -214,13 +225,13 @@ namespace CryptoInkLib
 			{
 				if(m_OtrConnections.ContainsKey(sReceiverName) == false)
 				{
-					//TODO: check if we already have a DSA-key of the receiver
-					m_OtrSessionManager.CreateOTRSession (sReceiverName);
+					m_OtrSessionManager.CreateOTRSession (sReceiverName, m_OTRKeyRing.m_PrivateKey);
 					m_OtrConnections.Add(sReceiverName, 0);
 				}
 			}
 			catch(Exception e) {
-				Console.WriteLine (e.Message);
+				m_Logger.log(ELogLevel.LVL_WARNING, "Warning: " + e.Message, m_sModuleName);
+				return false;
 			}
 
 			try
@@ -235,11 +246,20 @@ namespace CryptoInkLib
 				}
 			}
 			catch(Exception e) {
-				Console.WriteLine (e.Message);
+				m_Logger.log(ELogLevel.LVL_WARNING, "Warning: " + e.Message, m_sModuleName);
+				return false;
 			}
 			return true;
 		}
 
+
+		public void startSMP()
+		{
+			//TODO:
+//			m_OtrSessionManager.StartSMP (e.GetSessionID ());
+//			m_OtrSessionManager.RequestExtraKeyUse (e.GetSessionID ());
+//			m_OtrSessionManager.GetExtraSymmetricKey (e.GetSessionID ());
+		}
 
 		private void sendXmppMessage(string sMessage, string sReceiverName)
 		{
@@ -293,15 +313,10 @@ namespace CryptoInkLib
 
 				case OTR_EVENT.READY:
 					//TODO: implement store to know if an otr session is established
-					//TODO: check if correct
-					
-					//m_OtrSessionManager.StartSMP (e.GetSessionID ());
-					//m_OtrSessionManager.RequestExtraKeyUse (e.GetSessionID ());
-					//m_OtrSessionManager.GetExtraSymmetricKey (e.GetSessionID ());
 					
 					break;
 				case OTR_EVENT.DEBUG:
-					Console.WriteLine("Debug: " + e.GetMessage() + "\n");
+				m_Logger.log(ELogLevel.LVL_DEBUG, e.GetMessage(), m_sModuleName);
 					break;
 				case OTR_EVENT.EXTRA_KEY_REQUEST:
 					m_OtrSessionManager.GetExtraSymmetricKey(e.GetSessionID());

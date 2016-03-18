@@ -19,11 +19,13 @@ namespace CryptoInkLib
 			m_OpenPgpCrypter = new OpenPgpCrypter (m_OpenPGPRing.m_PublicKeyRing, m_OpenPGPRing.m_PrivateKeyRing, m_OpenPGPRing.m_cPassword);
 			m_Logger = logger;
 			m_sProtocol = "email";
+			m_sModuleName = "EmailManager";
 
 		}
 
 
 		public ConversationManager m_ConversationManager;
+		public string m_sModuleName;
 		private AuthInfo m_AuthInfo;
 		private EmailServiceDescription m_EmailServiceDescription;
 		private OpenPGPRing m_OpenPGPRing;
@@ -32,32 +34,32 @@ namespace CryptoInkLib
 		private string m_sProtocol;
 
 
-
-		//TODO: add function which can also add files to email
-		public int sendMessage(string sReceiverAddress, string sMessage, string sSubject="")
+		public RC sendMessage(string sReceiverAddress, string sMessage, int iSmtpPort=587)
 		{
 			var message = new MimeMessage ();
-			//TODO: What name to use? should we really use the email-address as the name??
 			message.From.Add(new MailboxAddress(m_AuthInfo.m_sId, m_AuthInfo.m_sId));
 			message.To.Add (new MailboxAddress (sReceiverAddress, sReceiverAddress));
 
-			message.Subject = sSubject;
+			message.Subject = "";
 
-			//TODO: catch exception
-			string sEncryptedMessage = m_OpenPgpCrypter.encryptPgpString (sMessage, sReceiverAddress, true, false);
+			try
+			{
+				string sEncryptedMessage = m_OpenPgpCrypter.encryptPgpString (sMessage, sReceiverAddress, true, false);
+			}
+			catch(Exception e) {
+				m_Logger.log (ELogLevel.LVL_WARNING, e.Message, m_sModuleName);
+			}
+
 			message.Body = new TextPart ("plain") {
 				Text = @sMessage
 			};
 
 			using (var client = new SmtpClient ()) {
-				//TODO: make Port and SSL configurable
-				client.Connect (m_EmailServiceDescription.SmtpUrl, 587, false);
+				client.Connect (m_EmailServiceDescription.SmtpUrl, iSmtpPort, true);
 
-				// Note: since we don't have an OAuth2 token, disable
-				// the XOAUTH2 authentication mechanism.
+				// disable the XOAUTH2 authentication mechanism.
 				client.AuthenticationMechanisms.Remove ("XOAUTH2");
 
-				// Note: only needed if the SMTP server requires authentication
 				client.Authenticate (m_AuthInfo.m_sId, m_AuthInfo.m_sPassword);
 
 				client.Send (message);
@@ -66,17 +68,21 @@ namespace CryptoInkLib
 				this.m_ConversationManager.addMessage (m_sProtocol, sMessage, m_AuthInfo.m_sId, sReceiverAddress);
 			}
 
-			return 0;
+			return RC.RC_OK;
 		}
 
 
-		//TODO: decrypt Email
-		public RC getMessages(bool bUsePop3 = false)
+
+		public RC getMessages(bool bUsePop3 = false, int iPortToUse = 0)
 		{
 			if (bUsePop3) {
 				using (var client = new Pop3Client ()) {
-					//TODO: make Port and SSL configurable
-					client.Connect (m_EmailServiceDescription.Pop3Url, 110, true);
+					
+					if (iPortToUse == 0) {
+						client.Connect (m_EmailServiceDescription.Pop3Url, 110, true);
+					} else {
+						client.Connect (m_EmailServiceDescription.Pop3Url, iPortToUse, true);
+					}
 
 					// Note: since we don't have an OAuth2 token, disable
 					// the XOAUTH2 authentication mechanism.
@@ -98,8 +104,12 @@ namespace CryptoInkLib
 			else //use IMAP 
 			{
 				using (var client = new ImapClient ()) {
-					//TODO: make Port and SSL configurable
-					client.Connect (m_EmailServiceDescription.ImapUrl, 993, true);
+
+					if (iPortToUse == 0) {
+						client.Connect (m_EmailServiceDescription.ImapUrl, 993, true);
+					} else {
+						client.Connect (m_EmailServiceDescription.ImapUrl, iPortToUse, true);
+					}
 
 					// Note: since we don't have an OAuth2 token, disable
 					// the XOAUTH2 authentication mechanism.

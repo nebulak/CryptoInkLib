@@ -58,17 +58,6 @@ namespace CryptoInkLib
 				}
 				conversation.m_Conversation.Add (message);
 			}
-
-
-			//TODO: implement correctly and save message in encrypted database
-			/*
-			xmppConversation.m_Conversation.Add (xmppMessage);
-			BeamMessage beamMessage = new BeamMessage ();
-			beamMessage.sFromService = "xmpp";
-			beamMessage.sAction = "addMessage";
-
-			beamMessage.sMessage = JsonConvert.SerializeObject(xmppMessage);
-			*/
 		}
 
 	}
