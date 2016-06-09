@@ -176,12 +176,12 @@ namespace CryptoInkLib
 		/// <param name="_presence">Presence.</param>
 		private void OnPresence(object oSender, Presence _presence)
 		{
-			if(m_ContactPresence.ContainsKey(_presence.Nickname))
+			if(m_ContactPresence.ContainsKey(_presence.Nickname.ToString()))
 			{
-				m_ContactPresence[_presence.Nickname] =_presence;
+				m_ContactPresence[_presence.Nickname.ToString()] =_presence;
 			}
 
-			m_ContactPresence.Add (_presence.Nickname, _presence);
+			m_ContactPresence.Add (_presence.Nickname.ToString(), _presence);
 		}
 
 
@@ -340,7 +340,25 @@ namespace CryptoInkLib
 			}
 		}
 
-		public 
+		/// <summary>
+		/// Gets the contacts as a Dictionary<string, string>
+		/// </summary>
+		/// <returns>The contacts as a Dictionary with nickname as key and Jid as value</returns>
+		public Dictionary<string, string> getContacts()
+		{
+			return m_Contacts;
+		}
+
+
+		/// <summary>
+		/// Gets the contact presences.
+		/// </summary>
+		/// <returns>Returns a dictionary with Nickname as key and Presence as value.</returns>
+		public Dictionary<string, Presence> getContactPresences()
+		{
+			return m_ContactPresence;
+		}
+
 	}
 }
 
