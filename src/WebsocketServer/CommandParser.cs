@@ -69,11 +69,6 @@ namespace CryptoInkLib
 			return "";
 		}
 
-		//TODO: add Post to ActivityStream
-		public string addPost(Dictionary<string, string> dParameters)
-		{
-			return "";
-		}
 
 		public string sendMessage(Dictionary<string, string> dParameters)
 		{

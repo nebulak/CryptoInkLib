@@ -173,7 +173,7 @@ namespace CryptoInkLib
 		private void OnPresence(object oSender, Presence _presence)
 		{
 			//TODO: implement function
-
+			_presence.
 
 		}
 
