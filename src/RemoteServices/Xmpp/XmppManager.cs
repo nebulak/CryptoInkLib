@@ -37,6 +37,7 @@ namespace CryptoInkLib
 				m_JidSender = new Jid (m_AuthInfo.m_sId);
 				m_ClientConnection = new XmppClientConnection(m_JidSender.Server);
 				m_Contacts = new Dictionary<string, string> ();
+				m_ContactPresence = new Dictionary<string, Presence> ();
 				m_Logger.log(ELogLevel.LVL_INFO, "Trying to log in xmpp user", m_sModuleName);
 				m_ClientConnection.Open(m_JidSender.User, m_AuthInfo.m_sPassword);
 				m_ConversationManager = _conversationManager;
@@ -119,6 +120,9 @@ namespace CryptoInkLib
 		/// </summary>
 		private Presence m_Presence;
 
+
+		private Dictionary<string, Presence> m_ContactPresence;
+
 		/// <summary>
 		/// handles the OnLogin-event and updates the Presence of the user
 		/// </summary>
@@ -172,9 +176,12 @@ namespace CryptoInkLib
 		/// <param name="_presence">Presence.</param>
 		private void OnPresence(object oSender, Presence _presence)
 		{
-			//TODO: implement function
-			_presence.
+			if(m_ContactPresence.ContainsKey(_presence.Nickname))
+			{
+				m_ContactPresence[_presence.Nickname] =_presence;
+			}
 
+			m_ContactPresence.Add (_presence.Nickname, _presence);
 		}
 
 
@@ -333,6 +340,7 @@ namespace CryptoInkLib
 			}
 		}
 
+		public 
 	}
 }
 
