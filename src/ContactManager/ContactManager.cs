@@ -85,14 +85,14 @@ namespace CryptoInkLib
 			return new Contact();
 		}
 
-
-		public bool isProtocolSupportedByContact(Contact contact, ECommunicationProtocols eProtocol)
+		//TODO: delete
+		/*public bool isProtocolSupportedByContact(Contact contact, ECommunicationProtocols eProtocol)
 		{
 			if (contact.supportedProtocols.Contains (eProtocol)) {
 				return true;
 			}
 			return false;
-		}
+		}*/
 	}
 }
 

@@ -10,10 +10,9 @@ namespace CryptoInkLib
 		}
 
 		public string nickname;
-		public bool is_online;
-		public bool is_activity_stream_supported;
-		public bool is_im_supported;
-		public bool is_email_supported;
+		public string id;
+		public string presence_type;
+		public string presence_text;
 	}
 }
 

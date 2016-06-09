@@ -167,6 +167,25 @@ namespace CryptoInkLib
 			m_Logger.log(ELogLevel.LVL_TRACE, "Add new Roster item!", m_sModuleName);
 			m_Contacts.Add(item.GetAttribute("jid").ToString(), item.GetAttribute("name").ToString());
 			m_ClientConnection.MessageGrabber.Add(item.Jid, new BareJidComparer(), new MessageCB(MessageCallback), null);
+
+			Contact _contact = m_ContactManager.getContactById (item.GetAttribute ("jid").ToString ());
+
+			//checks if contact is in addressbook
+			//TODO: check if this test works
+			if (_contact.sId == null) {
+				Contact newContact = new Contact ();
+				newContact.bIsXmppSupported = true;
+				newContact.bIsEmailSupported = null;
+				newContact.sId = item.GetAttribute ("jid").ToString ();
+				newContact.sNickname = item.GetAttribute ("name").ToString ();
+
+				return;
+			}
+
+			//Update contacts xmpp support
+			_contact.bIsXmppSupported = true;
+			//TODO: check if update contact is needed
+			//m_ContactManager.updateContact (_contact);
 		}
 
 		/// <summary>
@@ -341,7 +360,7 @@ namespace CryptoInkLib
 		}
 
 		/// <summary>
-		/// Gets the contacts as a Dictionary<string, string>
+		/// Gets the contacts as a Dictionary<string, string>. The contacts as a Dictionary with nickname as key and Jid as value
 		/// </summary>
 		/// <returns>The contacts as a Dictionary with nickname as key and Jid as value</returns>
 		public Dictionary<string, string> getContacts()
@@ -351,7 +370,7 @@ namespace CryptoInkLib
 
 
 		/// <summary>
-		/// Gets the contact presences.
+		/// Gets the contact presences. Returns a dictionary with Nickname as key and Presence as value.
 		/// </summary>
 		/// <returns>Returns a dictionary with Nickname as key and Presence as value.</returns>
 		public Dictionary<string, Presence> getContactPresences()
