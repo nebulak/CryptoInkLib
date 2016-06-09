@@ -109,7 +109,6 @@
     <Compile Include="WebsocketServer\WsServiceBehaviour.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\OTR\Utility.cs" />
     <Compile Include="IDManager\KeyManager\KeyGenerator\OTR\OTRFingerprint.cs" />
-    <Compile Include="WebsocketServer\Models\ContactModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -129,6 +128,5 @@
     <Folder Include="IDManager\KeyManager\KeyGenerator\OpenPGP\" />
     <Folder Include="IDManager\KeyManager\KeyGenerator\OTR\" />
     <Folder Include="WebsocketServer\" />
-    <Folder Include="WebsocketServer\Models\" />
   </ItemGroup>
 </Project>

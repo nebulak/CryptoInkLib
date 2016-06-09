@@ -25,6 +25,7 @@ namespace CryptoInkLib
 			
 			string sResponse = m_CommandParser.parseRequest (e.Text.ToString());
 
+
 			return Send (sResponse);
 		}
 	}

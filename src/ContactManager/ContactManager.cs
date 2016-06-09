@@ -24,11 +24,11 @@ namespace CryptoInkLib
 			//check if contact already exists
 			foreach(Contact _contact in m_Contacts)
 			{
-				if (_contact.sId == newContact.sId) {
+				if (_contact.id == newContact.id) {
 					return RC.RC_CONTACT_ALREADY_EXISTS;
 				}
 
-				if (_contact.sNickname == newContact.sNickname) {
+				if (_contact.nickname == newContact.nickname) {
 					return RC.RC_CONTACT_ALREADY_EXISTS;
 				}
 			}
@@ -66,7 +66,7 @@ namespace CryptoInkLib
 		public Contact getContactByNickname(string sNickname)
 		{
 			foreach (Contact contact in m_Contacts) {
-				if (contact.sNickname == sNickname) {
+				if (contact.nickname == sNickname) {
 					return contact;
 				}
 			}
@@ -78,7 +78,7 @@ namespace CryptoInkLib
 		public Contact getContactById(string sId)
 		{
 			foreach (Contact contact in m_Contacts) {
-				if (contact.sId == sId) {
+				if (contact.id == sId) {
 					return contact;
 				}
 			}

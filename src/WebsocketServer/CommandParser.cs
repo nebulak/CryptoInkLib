@@ -25,29 +25,29 @@ namespace CryptoInkLib
 			switch (request.command) 
 			{
 			case "getContacts":
-				return this.getContacts ();
+				return JsonConvert.SerializeObject(this.getContacts ());
 			case "getConversations":
-				return this.getConversations ();									
+				return JsonConvert.SerializeObject(this.getConversations ());									
 			case "getNotifications":
-				return this.getNotifications ();
+				return JsonConvert.SerializeObject(this.getNotifications ());
 			case "getMessengerStatus":
-				return this.getMessengerStatus ();
+				return JsonConvert.SerializeObject(this.getMessengerStatus ());
 			case "sendMessage":
-				return this.sendMessage (request.parameters);
+				return JsonConvert.SerializeObject(this.sendMessage (request.parameters));
 			}
 			//TODO: implement all fnctions
 			return "";
 		}
 
 		//TODO: test if it works
-		public string getContacts()
+		public List<Contact> getContacts()
 		{
 			Dictionary<string, string> dContacts = m_MessagingManager.m_XmppManager.getContacts();
 			Dictionary<string, Presence> dPresence = m_MessagingManager.m_XmppManager.getContactPresences ();
-			List<ContactModel> contactList = new List<ContactModel> ();
+			List<Contact> contactList = new List<Contact> ();
 
 			foreach (var item in dContacts) {
-				ContactModel currentContact = new ContactModel ();
+				Contact currentContact = new Contact ();
 				currentContact.id = item.Value;
 				currentContact.nickname = item.Key;
 				currentContact.presence_type = dPresence [item.Key].Type.ToString ();
@@ -56,7 +56,7 @@ namespace CryptoInkLib
 				contactList.Add (currentContact);
 			}
 
-			return JsonConvert.SerializeObject(contactList);
+			return contactList;
 		}
 
 
@@ -94,6 +94,17 @@ namespace CryptoInkLib
 		{
 			if (dParameters.ContainsKey ("receiver") && dParameters.ContainsKey ("message")) {
 				//TODO: implement send message
+				List<Contact> contacts = getContacts();
+
+				//check if we have the recipient in the addressbook
+				foreach (var item in contacts) {
+					if (item.id == dParameters ["receiver"]) {
+						//TODO!
+						//if(item.
+						//if(item.presence_type == PresenceType.available)
+					}
+				}
+				//TODO: contacts.Contains(dParameters["receiver"])
 			}
 			return "";
 		}

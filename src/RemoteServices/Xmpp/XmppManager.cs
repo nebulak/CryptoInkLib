@@ -62,7 +62,7 @@ namespace CryptoInkLib
 		private OpenPGPRing m_OpenPGPRing;
 		private ContactManager m_ContactManager;
 		private Logger m_Logger;
-		
+
 		public static string m_sProtocolName = "xmpp";
 		
 		public static string m_sModuleName = "XmppManager";
@@ -172,18 +172,19 @@ namespace CryptoInkLib
 
 			//checks if contact is in addressbook
 			//TODO: check if this test works
-			if (_contact.sId == null) {
+			if (_contact.id == null) {
 				Contact newContact = new Contact ();
 				newContact.bIsXmppSupported = true;
 				newContact.bIsEmailSupported = null;
-				newContact.sId = item.GetAttribute ("jid").ToString ();
-				newContact.sNickname = item.GetAttribute ("name").ToString ();
+				newContact.id = item.GetAttribute ("jid").ToString ();
+				newContact.nickname = item.GetAttribute ("name").ToString ();
 
 				return;
 			}
 
 			//Update contacts xmpp support
 			_contact.bIsXmppSupported = true;
+
 			//TODO: check if update contact is needed
 			//m_ContactManager.updateContact (_contact);
 		}
