@@ -221,7 +221,7 @@ namespace CryptoInkLib
 
 
 
-		public void sendMessage(string sMessage, string sReceiverName)
+		public void sendMessage(string sMessage, string sReceiverId)
 		{
 			//check if client has logged in successfully
 			if (m_ClientConnection.XmppConnectionState != XmppConnectionState.SessionStarted) {
@@ -230,19 +230,19 @@ namespace CryptoInkLib
 			}
 
 			//check if OTR-session is established
-			if (m_OtrSessionManager.GetSessionMessageState (sReceiverName) != Mono.OTR.Utilities.OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED) {
-				createOtrSession (sReceiverName);
+			if (m_OtrSessionManager.GetSessionMessageState (sReceiverId) != Mono.OTR.Utilities.OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED) {
+				createOtrSession (sReceiverId);
 			}
 
 			//encrypt message if possible
-			if (m_OtrSessionManager.GetSessionMessageState (sReceiverName) != Mono.OTR.Utilities.OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED) {
-				Console.WriteLine ("Cannot send encrypted message. Encrypted session is not established. Session-State: " + m_OtrSessionManager.GetSessionMessageState (sReceiverName).ToString());
+			if (m_OtrSessionManager.GetSessionMessageState (sReceiverId) != Mono.OTR.Utilities.OTR_MESSAGE_STATE.MSG_STATE_ENCRYPTED) {
+				Console.WriteLine ("Cannot send encrypted message. Encrypted session is not established. Session-State: " + m_OtrSessionManager.GetSessionMessageState (sReceiverId).ToString());
 				return;
 			}
-			m_OtrSessionManager.EncryptMessage(sReceiverName, sMessage);
+			m_OtrSessionManager.EncryptMessage(sReceiverId, sMessage);
 
 			//save message
-			m_ConversationManager.addMessage ("xmpp", sMessage, m_JidSender, sReceiverName);
+			m_ConversationManager.addMessage ("xmpp", sMessage, m_JidSender, sReceiverId);
 		}
 
 

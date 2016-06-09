@@ -92,6 +92,7 @@ namespace CryptoInkLib
 
 		public string sendMessage(Dictionary<string, string> dParameters)
 		{
+			//TODO: move complex part to MessagingManager
 			if (dParameters.ContainsKey ("receiver") && dParameters.ContainsKey ("message")) {
 				//TODO: implement send message
 				List<Contact> contacts = getContacts();
@@ -99,13 +100,18 @@ namespace CryptoInkLib
 				//check if we have the recipient in the addressbook
 				foreach (var item in contacts) {
 					if (item.id == dParameters ["receiver"]) {
-						//TODO!
-						//if(item.
-						//if(item.presence_type == PresenceType.available)
+						//TODO: use try-catch-block
+						//check if we can send xmpp 
+						if (item.bIsXmppSupported) {
+							//TODO: check if XmppManager can send OTR and PGP encrypted
+							m_MessagingManager.m_XmppManager.sendMessage(dParameters ["message"], dParameters["receiver"]);
+						} else {
+							m_MessagingManager.m_EmailManager.sendMessage (dParameters ["message"], dParameters ["receiver"]);
+						}
 					}
 				}
-				//TODO: contacts.Contains(dParameters["receiver"])
 			}
+			//TODO: add return message
 			return "";
 		}
 	}

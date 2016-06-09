@@ -11,6 +11,6 @@ namespace CryptoInkLib
 		public string presence_text;
 		public DateTime presence_date;
 		public bool? bIsEmailSupported;
-		public bool? bIsXmppSupported;
+		public bool bIsXmppSupported;
 	}
 }

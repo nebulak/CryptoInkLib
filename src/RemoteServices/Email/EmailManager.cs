@@ -43,6 +43,7 @@ namespace CryptoInkLib
 			message.Subject = "";
 			string sEncryptedMessage = "";
 
+			//TODO: return error if mail cannot be send encrypted
 			try
 			{
 				sEncryptedMessage = m_OpenPgpCrypter.encryptPgpString (sMessage, sReceiverAddress, true, false);
