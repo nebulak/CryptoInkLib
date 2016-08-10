@@ -66,7 +66,7 @@ namespace CryptoInkLib
 		public Contact getContactByNickname(string sNickname)
 		{
 			foreach (Contact contact in m_Contacts) {
-				if (contact.nickname == sNickname) {
+				if (contact.sNickname == sNickname) {
 					return contact;
 				}
 			}
@@ -78,7 +78,7 @@ namespace CryptoInkLib
 		public Contact getContactById(string sId)
 		{
 			foreach (Contact contact in m_Contacts) {
-				if (contact.id == sId) {
+				if (contact.sId == sId) {
 					return contact;
 				}
 			}
